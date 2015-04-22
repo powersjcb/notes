@@ -1,0 +1,37 @@
+    else
+
+  end
+      puts "You win!"
+  def play(hand)
+
+          (hand == :rock      && computer_hand == :scissors)
+  def initialize
+      puts "You played #{hand}, and the computer played #{computer_hand}."
+    else
+  end
+  HANDS = [:rock, :paper, :scissors]
+      determine_winner(hand, computer_hand)
+  def determine_winner(hand, computer_hand)
+  end
+
+    end
+game.play("rock")
+end
+    if  (hand == :paper     && computer_hand == :rock) ||
+
+  attr_reader :computer_hand
+      puts "You tie!"
+      puts "You lose!"
+    end
+  def valid?(string)
+
+    @computer_hand = HANDS.shuffle[0]
+          (hand == :scissors  && computer_hand == :paper) ||
+    elsif hand == computer_hand
+    hand = hand.to_sym
+class RPS
+      puts "That is not a valid hand"
+    HANDS.include?(string)
+game = RPS.new
+    if valid?(hand)
+  end

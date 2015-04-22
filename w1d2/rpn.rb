@@ -84,7 +84,10 @@ class RPN
     end
 
     def input_from_file(file)
-      input = File.read(file).chomp
+      input = File.each do |line|
+        add_to_stack
+        p current_stack
+      end
       puts evaluate(input)
     end
 

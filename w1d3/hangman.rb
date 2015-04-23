@@ -1,3 +1,6 @@
+#!/usr/bin/env ruby
+require 'byebug'
+
 class Hangman
   attr_reader :guesses
 
@@ -18,6 +21,7 @@ class Hangman
     end
 
     end_game_display
+    puts @checking_player.secret_word
   end
 
   protected
@@ -35,7 +39,7 @@ class Hangman
     end
 
     def display_secret_word
-      puts "#{@secret_word.join(' ')}"
+      puts "#{@secret_word.join('|')}"
     end
 
     def get_guess
@@ -52,7 +56,6 @@ class Hangman
         puts "#{@guessing_player.name} won!"
       else
         puts "#{@checking_player.name} won!"
-
       end
 
       puts "Thanks for playing."
@@ -101,9 +104,10 @@ class HumanPlayer
 end
 
 class ComputerPlayer
-  attr_reader :name
+  attr_accessor :name
+  attr_accessor :secret_word
 
-  def intialize
+  def initialize
     @name = "Computer"
   end
 
@@ -119,10 +123,17 @@ class ComputerPlayer
 
   def evaluate_guess(letter)
     positions = []
-    @secret_word.each_index do |index|
-      positions << index if @secret_word[index] = letter
+    @secret_word.chars.each_index do |index|
+      positions << index if @secret_word[index] == letter
     end
 
     positions
   end
+end
+
+if __FILE__ == $PROGRAM_NAME
+  austin = HumanPlayer.new("Austin")
+  comp = ComputerPlayer.new
+  game = Hangman.new(austin, comp)
+  game.play
 end

@@ -22,14 +22,8 @@ class Array
 
     left.my_sort!(&block) + [pivot] + right.my_sort!(&block)
   end
-
-  def my_sort(&block)
-    array = self.dup
-    array.my_sort!(&block)
-  end
-
 end
 #
 arr = [4,5,7,4,2,2,5,10,99,5000,1,-10,-10,-5]
-# prc = Proc.new { |num1, num2| num2 <=> num1 }
-p arr.my_sort! { |num1, num2| num2 <=> num1 }
+prc = Proc.new { |num1, num2| num2 <=> num1 }
+# p arr.my_sort! { |num1, num2| num2 <=> num1 }

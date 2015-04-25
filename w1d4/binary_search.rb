@@ -1,7 +1,7 @@
 require 'byebug'
 def binary_search(sorted_array, target)
-  return 0 if sorted_array.length == 1 && sorted_array[0] == target
   return nil if sorted_array.length == 0
+  return 0 if sorted_array.length == 1 && sorted_array[0] == target
 
   pivot = sorted_array.length / 2
   if sorted_array[pivot] <= target

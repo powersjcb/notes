@@ -1,3 +1,7 @@
+# make work using ans
+#https://github.com/appacademy/TicTacToeAI/blob/master/skeleton/lib/tic_tac_toe.rb
+
+
 class TicTacToe
   class Board
     attr_reader :grid, :n

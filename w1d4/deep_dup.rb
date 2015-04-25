@@ -8,6 +8,12 @@ def deep_dup(array)
   output
 end
 
+def short_deep_dup(array)
+  map { |el| el.is_a?(Array) ? : el.short_deep_dup : el}
+end
+
+
+
 a = ([1, [2], [3, [4]]])
 p b = deep_dup(a)
 c = a.dup

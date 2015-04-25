@@ -24,6 +24,7 @@ class Game
   protected
 
     def display
+      puts "Available colors: RGBYOP"
       puts "|  guess  | Exact | Near |"
       self.guesses.each do |guess|
         puts "| #{guess.code.join(' ')} |" +
@@ -132,6 +133,7 @@ end
 
 
 jacob = HumanPlayer.new("Jacob")
-austin = HumanPlayer.new("Austin")
-game = Game.new(jacob, austin)
+# austin = HumanPlayer.new("Austin")
+comp = ComputerPlayer.new
+game = Game.new(jacob, comp)
 game.play

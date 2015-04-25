@@ -1,5 +1,6 @@
 def make_change(num, array = [25, 10, 5, 1])
-
+  return [] if num == 0
+  return nil if array.none? { |coin| coin <= target }
   return [num] if array.include?(num)
   array.each do |coin|
 

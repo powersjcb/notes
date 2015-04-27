@@ -1,3 +1,5 @@
+require 'byebug'
+
 class Array
   def merge_sort
     return self if count < 2
@@ -7,7 +9,6 @@ class Array
   end
 
   def merge(left, right)  # merges two sorted arrays onto the end of Array
-
     merged_array = [ ]
     until left.empty? || right.empty?
       merged_array <<
@@ -17,3 +18,5 @@ class Array
     merged_array + left + right
   end
 end
+
+[1,2,3,4].merge_sort

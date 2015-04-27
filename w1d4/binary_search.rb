@@ -6,10 +6,10 @@ def binary_search(sorted_array, target)
   pivot = sorted_array.length / 2
   if sorted_array[pivot] <= target
     contained = sorted_array[pivot...sorted_array.length]
-    index = pivot + binary_search(contained, target)
+    pivot + binary_search(contained, target)
   elsif sorted_array[pivot] > target
     contained = sorted_array[0...pivot]
-    index = binary_search(contained, target)
+    binary_search(contained, target)
   end
 
 end

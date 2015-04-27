@@ -1,15 +1,16 @@
-require 'pry'
+# 33mim
+# require 'byebug'
 class Array
   def my_inject(accumulator=nil, &block)
     n = 0
     if accumulator.nil?
-      accumulator = self[0]
+      accumulator = self.first
       n = 1
     end
+
     drop(n).each do |el|
       accumulator = block.call(accumulator,el)
     end
-
     accumulator
   end
 end
@@ -18,93 +19,84 @@ end
 
 
 def is_prime?(num)
-  return false if num == 1 || num == 0
-  i = 2
-  while i < num
+  (2...num).each do |i|
     return false if num % i == 0
-    i += 1
   end
-
   true
 end
 
 
-
 def primes(count)
-  output = []
+  results = []
   i = 2
-  until output.size == count
-    output << i if is_prime?(i)
+  until results.count >= count
+    results << i if is_prime?(i)
     i += 1
   end
-  output
+  results
 end
+
 # the "calls itself recursively" spec may say that there is no method
 # named "and_call_original" if you are using an older version of
 # rspec. You may ignore this failure.
 # Also, be aware that the first factorial number is 0!, which is defined
 # to equal 1. So the 2nd factorial is 1!, the 3rd factorial is 2!, etc.
 def factorials_rec(num)
-  return [1] if num == 1
-  facts = factorials_rec(num-1)
-  facts << facts.last*(num-1)
-  facts
-end
+   return [1] if num == 1
 
+   last_fact = factorials_rec(num-1)
+   last_fact << last_fact.last * (num - 1)
+   last_fact
+end
 
 
 class Array
   def dups
-    locations = Hash.new([])
-    each.with_index do |el, index|
-      locations[el] += [index]
-    end
+    locations = Hash.new { |h,k| h[k] = [ ] }
 
-    locations.reject! {|k,v| v.count < 2 }
+    each.with_index do |el, i|
+      locations[el] << i
+    end
+    locations.reject {|k,v| v.count < 2}
   end
 end
 
-p [1,2,3,1,1,2].dups
+p [1,2,1,1,1,2,2,5].dups
+
 
 class String
   def symmetric_substrings
-    reversable = []
-    substrings = []
-    chars.each_index do |i1|
-      (i1...self.length).each do |i2|
-        substrings << self[i1..i2]
+    sym = []
+    (0...(self.size - 1)).each do |i1|
+      (i1...(self.size)).each do |i2|
+        string = self[i1..i2]
+        if string.reverse == string && string.size > 2
+          sym << string
+        end
       end
     end
-
-    substrings.each do |el|
-      reversable << el if el == el.reverse && el.chars.count > 2
-    end
-
-    reversable.uniq
+    sym.uniq
   end
 end
 
-# p 'stetssdafsdfd'.symmetric_substrings
+# p "stestsersr".symmetric_substrings
+
 
 class Array
   def merge_sort(&prc)
-    # prc ||= Proc.new { |num1, num2| num1 <=> num2 }
+    prc = proc { |n1, n2| n1 <=> n2 }
     return self if count < 2
 
-    left, right = self.take(count/2), self.drop(count/2)
+    left_sorted = take(count/2).merge_sort(&prc)
+    right_sorted = drop(count/2).merge_sort(&prc)
 
-    sorted_left = left.merge_sort(&prc)
-    sorted_right = right.merge_sort(&prc)
-
-    Array.merge(sorted_left, sorted_right, &prc)
-
+    Array.merge(left_sorted, right_sorted, &prc)
   end
 
   private
   def self.merge(left, right, &prc)
-    prc ||= Proc.new {|num1,num2| num1 <=> num2 }
+    prc = proc { |n1, n2| n1 <=> n2 }
     merged_array = []
-
     until left.empty? || right.empty?
       case prc.call(left.first, right.first)
       when 1
@@ -115,10 +107,8 @@ class Array
         merged_array << left.shift
       end
     end
-
     merged_array + left + right
   end
 end
 
-
-# p [1,5,6,1,32,5,2].merge_sort
+p [1,2,3,5,1,2,3,5,1,2,3,5].merge_sort

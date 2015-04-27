@@ -34,7 +34,13 @@ class Game
   end
 
   def display
-    @board
+    @board.rows.each_with_index do |row, x|
+      raster = []
+      row.each_with_index do |tile, y|
+        raster << parse_tile(tile, x, y)
+      end
+      puts raster.join("  ")
+    end
   end
 
   private
@@ -74,9 +80,22 @@ class Game
   end
 
   def game_over_msg
+    puts @board
+    puts "\n\n"
     puts @game_over ? "You lost!" : "You won!"
   end
 
+  def parse_tile(tile, x, y)
+    if @board.flags.include?([x,y])
+      "F"
+    elsif @board.shown.include?([x,y])
+      tile.neighbors == 0 ? "." : tile.neighbors.to_s
+    elsif tile.mine && @game_over
+      "X"
+    else
+      "_"
+    end
+  end
 
 end
 

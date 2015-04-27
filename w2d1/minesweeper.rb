@@ -6,6 +6,7 @@ class Game
   end
 
   def play
+    # debugger
     setup
     size = get_board_size
     mines = get_mines_number
@@ -47,15 +48,16 @@ class Game
 
   def setup
     puts "Welcome to Minesweeper! How big of a grid do you want to play in?"
-    puts "Enter a number:"
   end
 
   def get_board_size
-    size = Integer(gets)
+    puts "Enter a number:"
+    size = Integer(gets.chomp)
   end
 
   def get_mines_number
-    mines_number = Integer(gets)
+    puts "How many mines do you want?"
+    mines_number = Integer(gets.chomp)
   end
 
   def get_input
@@ -68,7 +70,7 @@ class Game
     end
     x = Integer(x)
     y = Integer(y)
-    if !@board.valid_tile?(x, y)
+    if !@board.valid_tile?([x, y])
       raise InputError
     else
       return [operation, x, y]
@@ -114,7 +116,7 @@ class Tile
 end
 
 class Board
-  attr_accessor :flags, :shown
+  attr_accessor :flags, :shown, :rows
 
   def initialize(size = 9, mines_no = 9)
     @rows = Array.new(size) { Array.new(size) { Tile.new } }
@@ -135,7 +137,7 @@ class Board
   def reveal(coords)
     x, y = coords
 
-    return false if @rows[x,y].mine
+    return false if self[x,y].mine
 
     @shown << [x,y] if splash(x,y) == []
     @shown.uniq!
@@ -191,7 +193,21 @@ class Board
     x.between?(0, @rows.size - 1) && y.between?(0, @rows.size - 1)
   end
 
-#  private
+
+  def make_square(x, y)
+    potential_neighbors = []
+    (x - 1..x + 1).each do |x|
+      (y - 1..y + 1) .each do |y|
+        potential_neighbors << [x, y]
+      end
+    end
+    potential_neighbors.select! do |coords|
+      valid_tile?(coords) && coords != [x, y]
+    end
+  end
+
+
+ private
 
   def initialize_tiles
     @rows.each_with_index do |row, x|
@@ -202,18 +218,6 @@ class Board
         #if they do, increment the neighbors
         self[x, y].neighbors = potential_neighbors.count
       end
-    end
-  end
-
-  def make_square(x, y)
-    potential_neighbors = []
-    (x - 1..x + 1).each do |x|
-      (y - 1..y + 1) .each do |y|
-        potential_neighbors << [x, y]
-      end
-    end
-    potential_neighbors.select! do |coords|
-      valid_tile?(*coords) && coords != [x, y]
     end
   end
 
@@ -233,8 +237,8 @@ class Board
     end
 
     reveals.each do |tneighbor|
-      p "Further splashing #{tneighbor.last}"
-      p @shown
+      # p "Further splashing #{tneighbor.last}"
+      # p @shown
       further_splash = splash(*tneighbor.last)
       @shown += further_splash.map(&:last) unless further_splash.empty?
       reveals += further_splash
@@ -243,6 +247,4 @@ class Board
   end
 end
 
-load 'minesweeper.rb'
-a = Board.new(13, 13)
-puts a
+Game.new.play

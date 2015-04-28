@@ -90,7 +90,12 @@ class Game
     func, x, y = input
     raise InputError if input.length != 3 || (func != "r" && func != "f")
     x, y = Integer(x), Integer(y)
-    !@board.valid_tile?([x, y]) ? raise InputError : [func, x, y]
+
+    unless @board.valid_tile?([x, y])
+      raise InputError
+    end
+
+    [func, x, y]
   rescue
     puts "Invalid entry. Try again."
     retry

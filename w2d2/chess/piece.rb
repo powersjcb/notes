@@ -14,6 +14,7 @@ class Piece
     positions
     # checks if on board
     # checks if hitting own piece
+    # kills if hits enemy
     ## not entering check puts you in check
   end
 

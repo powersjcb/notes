@@ -2,33 +2,13 @@ require_relative 'piece_requirements'
 
 class Board
 
-
-
-  STARTING_POSITIONS = {
-    :r => [0,0],
-    :kn => [0,1],
-    :b => [0,2],
-    :q => [0,3],
-    :k => [0,4],
-    :b => [0,5],
-    :kn => [0,6],
-    :r => [0,7],
-    :p => [1,0],
-    :p => [1,1],
-    :p => [1,2],
-    :p => [1,3],
-    :p => [1,4],
-    :p => [1,5],
-    :p => [1,6],
-    :p => [1,7]}
-
+  KLASSES = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
 
   attr_reader :grid
 
   def initialize
     @grid = Array.new(8) { Array.new(8) }
-    seed_board(:black)
-    #seed_board(:white)
+    seed_board
   end
 
   def []=(pos, val)
@@ -42,11 +22,20 @@ class Board
   end
 
   def seed_board
+    #seed pawns
     [1,6].each do |row|
       8.times do |col|
         color = (row == 1) ? :black : :white
-        options = { }
-        Pawn.new(options)
+        options = { color: color, position: [row, col], board: self }
+        @grid[row][col] = Pawn.new(options)
+      end
+    end
+    #seed others
+    [0,7].each do |row|
+      KLASSES.each.with_index do |klass, col|
+        color = (row == 0) ? :black : :white
+        options = { color: color, position: [row, col], board: self }
+        @grid[row][col] = klass.new(options)
       end
     end
   end
@@ -82,4 +71,8 @@ end
 
 
 board = Board.new
-p board.grid
+board.grid.each do |row|
+  row.each do |item|
+    p item.symbol
+  end
+end

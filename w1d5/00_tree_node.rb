@@ -23,9 +23,6 @@ class PolyTreeNode
     end
   end
 
-  def ==(other)
-  end
-
   def add_child(node_obj)
     @children << node_obj
     node_obj.parent = self
@@ -80,7 +77,7 @@ class PolyTreeNode
       @children = @children - [node_obj]
       node_obj.parent = nil
     else
-      raise
+      raise "invalid child"
     end
   end
 

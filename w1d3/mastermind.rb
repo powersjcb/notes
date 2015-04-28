@@ -103,6 +103,7 @@ class Code
   end
 
   def self.parse_input(input)
+    fail if input.chars.any? { |char| char.match(/[0-9]/) }
     Code.new( input.split('').map(&:to_sym) )
   end
 end
@@ -115,7 +116,12 @@ class HumanPlayer
   end
 
   def get_code
-    Code.parse_input(gets.chomp)
+    begin
+      Code.parse_input(gets.chomp)
+    rescue
+      puts "Thats not a valid input "
+      retry
+    end
   end
 end
 

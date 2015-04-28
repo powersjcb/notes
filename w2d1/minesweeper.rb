@@ -84,21 +84,13 @@ class Game
     "(s) if you want to save the game, and then your filename."
     puts "Format: \'f 4, 5\' or \'r 5, 7\' or \'s\ <filename>'"
     input = gets.chomp.split(',').join(' ').downcase.split
-    if input.first == "s"
-      return ["s", input.last, nil]
-    end
-    operation, x, y = input
-    if input.length != 3 || (operation != "r" && operation != "f")
-      raise InputError
-    end
-    x = Integer(x)
-    y = Integer(y)
-    if !@board.valid_tile?([x, y])
-      raise InputError
-    else
-      return [operation, x, y]
-    end
 
+    return ["s", input.last, nil] if input.first == "s"
+
+    func, x, y = input
+    raise InputError if input.length != 3 || (func != "r" && func != "f")
+    x, y = Integer(x), Integer(y)
+    !@board.valid_tile?([x, y]) ? raise InputError : [func, x, y]
   rescue
     puts "Invalid entry. Try again."
     retry
@@ -121,7 +113,6 @@ class Game
       "_"
     end
   end
-
 end
 
 class Tile
@@ -134,15 +125,11 @@ class Tile
   def to_s
     @mine ? "@" : "_"
   end
-
-
 end
 
 class Board
   attr_accessor :flags, :shown, :rows
-
   FOUR_D_DIFFS = [-1, 0, 1, 0].zip([0, 1, 0, -1])
-
 
   def initialize(size = 9, mines_no = 9)
     @rows = Array.new(size) { Array.new(size) { Tile.new } }
@@ -162,9 +149,7 @@ class Board
 
   def reveal(coords)
     x, y = coords
-
     return false if self[x,y].mine
-
     @shown << [x,y] if splash(x,y) == []
     @shown.uniq!
 
@@ -220,7 +205,6 @@ class Board
     x.between?(0, @rows.size - 1) && y.between?(0, @rows.size - 1)
   end
 
-
   def make_square(x, y)
     potential_neighbors = []
     (x - 1..x + 1).each do |x|
@@ -233,29 +217,11 @@ class Board
     end
   end
 
-
- # private
-
+ private
 
  def deep_dup(array)
    array.map { |el| el.is_a?(Array) ? deep_dup(el) : el }
  end
-
-  # def fan_out
-  #   p @shown
-  #   deep_dup(@shown).each do |x,y|
-  #     puts
-  #     FOUR_D_DIFFS.each do |dx, dy|
-  #       puts
-  #       coords = [x + dx, y + dy]
-  #       if valid_tile?(coords) && !self[*coords].mine &&
-  #                                 !@shown.include?(coords)
-  #         puts "fan4"
-  #         @shown << coords
-  #       end
-  #     end
-  #   end
-  # end
 
   def initialize_tiles
     @rows.each_with_index do |row, x|
@@ -270,6 +236,17 @@ class Board
   end
 
   def splash(x, y)
+    # only call splash if neighbor_bomb_count is 0
+
+    # set a queue; put tile at x, y in there
+    # reveal x,y
+
+    # get current's neighbors
+      # if they're not revealed, and their bomb_count is 0 add them to the queue
+      # reveal them
+    # stop once queue empty
+
+
   #  debugger
     # if !self[x,y].mine && !@shown.include?([x, y]) && self[x,y].neighbors > 1
       # @shown << [x, y]
@@ -302,7 +279,6 @@ end
 if __FILE__ == $0
   if ARGV[0]
     my_game = Game.load(ARGV.shift)
-    ARGV = []
     my_game.play
   else
     Game.new.run

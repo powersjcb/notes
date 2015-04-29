@@ -11,14 +11,20 @@ class SlidingPiece < Piece
   def sliding_limit(pos, direction)
     dx, dy = direction
     x, y = pos
-    new_pos = [x + dx, y + dy]
-    if !@board.on_board?(new_pos) || (@board.occupied?(new_pos) && own_piece?(new_pos) )
-      return nil
-    end
-    return new_pos if @board.occupied?(new_pos) && !own_piece?(new_pos)
-    sliding_limit(new_position, direction) + new_pos
-  end
+    pos = [x + dx, y + dy]
 
+    directional_moves = []
+    loop do
+      break if !@board.on_board?(pos) || (@board.occupied?(pos) && own_piece?(pos))
+      directional_moves << pos
+      break if @board.occupied?(pos) && !own_piece?(pos)
+
+      x, y = pos
+      pos = [x + dx, y + dy]
+    end
+
+    directional_moves
+  end
 
   def moves
     raise "Not implemented"

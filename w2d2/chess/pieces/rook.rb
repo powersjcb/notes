@@ -12,7 +12,7 @@ class Rook < SlidingPiece
       valid_moves << sliding_limit(@position, offset)
     end
 
-    valid_moves.compact
+    valid_moves#.compact
   end
 
 

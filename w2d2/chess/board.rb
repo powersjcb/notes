@@ -23,15 +23,15 @@ class Board
   end
 
   def seed_board
-    #seed pawns
-    [1,6].each do |row|
-      8.times do |col|
-        color = (row == 1) ? :black : :white
-        options = { color: color, position: [row, col],
-                    board: self, moved: false }
-        @grid[row][col] = Pawn.new(options)
-      end
-    end
+    # #seed pawns
+    # [1,6].each do |row|
+    #   8.times do |col|
+    #     color = (row == 1) ? :black : :white
+    #     options = { color: color, position: [row, col],
+    #                 board: self, moved: false }
+    #     @grid[row][col] = Pawn.new(options)
+    #   end
+    # end
     #seed others
     [0,7].each do |row|
       KLASSES.each.with_index do |klass, col|
@@ -88,4 +88,4 @@ b.grid.each do |row|
   puts display_line.join("|")
 end
 
-p b.grid[0][0].moves
+p b.grid[0][0].sliding_limit([0,0], [1,0])

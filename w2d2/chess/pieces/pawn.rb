@@ -25,9 +25,10 @@ class Pawn < Piece
           if @color == @board.piece_at(candidate_position).color
             next
           end
+          next unless (dy == 1 || dy == -1) &&
+                  @color != @board.piece_at(candidate_position).color
         end
         # must be killing if diag.
-        next unless dy == 1 || dy == -1 && @color != @board.piece_at.color
       end
       candidate_positions << [x + dx, y + dy]
     end

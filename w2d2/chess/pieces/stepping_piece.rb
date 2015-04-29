@@ -13,6 +13,7 @@ class SteppingPiece < Piece
     end
 
     candidate_positions
+    valid = candidate_positions.reject { |move| move_into_check?(move) }
   end
 
   def valid_moves

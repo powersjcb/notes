@@ -17,4 +17,10 @@ class Piece
     ## not entering check puts you in check
   end
 
+    # returns true if empty or enemy
+  def own_piece?(pos)
+    return false if @board.piece_at(pos).nil?
+    @color != @board.piece_at(pos).color
+  end
+
 end

@@ -1,5 +1,5 @@
 class Piece
-  def initialize(options = {moved: false})
+  def initialize(options)
     @color = options[:color]
     @position = options[:position] # = []
     @moved = options[:moved]  # boolean
@@ -11,10 +11,9 @@ class Piece
   # end
 
   def valid_moves
-    positions
+    # positions
     # checks if on board
     # checks if hitting own piece
-    # kills if hits enemy
     ## not entering check puts you in check
   end
 

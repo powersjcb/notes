@@ -1,3 +1,4 @@
+require 'byebug'
 require_relative 'piece_requirements'
 
 class Board
@@ -26,7 +27,8 @@ class Board
     [1,6].each do |row|
       8.times do |col|
         color = (row == 1) ? :black : :white
-        options = { color: color, position: [row, col], board: self }
+        options = { color: color, position: [row, col],
+                    board: self, moved: false }
         @grid[row][col] = Pawn.new(options)
       end
     end
@@ -34,7 +36,8 @@ class Board
     [0,7].each do |row|
       KLASSES.each.with_index do |klass, col|
         color = (row == 0) ? :black : :white
-        options = { color: color, position: [row, col], board: self }
+        options = { color: color, position: [row, col],
+                    board: self, moved: false }
         @grid[row][col] = klass.new(options)
       end
     end
@@ -44,16 +47,18 @@ class Board
 
   end
 
-  def on_board?#(position)
-
+  def on_board?(position)
+    row, col = position
+    row.between?(0,7) && col.between?(0,7)
   end
 
   def occupied?(position)
-
+    !piece_at(position).nil?
   end
 
   def piece_at(position)
-
+    row, col = position
+    @grid[row][col]
   end
 
   def checkmate?(color)
@@ -71,8 +76,4 @@ end
 
 
 board = Board.new
-board.grid.each do |row|
-  row.each do |item|
-    p item.symbol
-  end
-end
+p board[[1,1]].moves

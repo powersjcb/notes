@@ -1,7 +1,18 @@
 class SteppingPiece < Piece
-  OFFSETS = [-1, 0, 1].permutation(2).to_a
+
   def moves
-    # position + all relative offsets
+    candidate_positions = []
+    offsets.each do |offset|
+      dx, dy = offset
+      x, y = @position
+      pos = [x + dx, y + dy]
+
+      unless own_piece?(pos) || !@board.on_board?(pos)
+        candidate_positions << pos
+      end
+    end
+
+    candidate_positions
   end
 
   def valid_moves

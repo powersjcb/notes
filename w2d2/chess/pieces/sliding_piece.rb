@@ -4,10 +4,6 @@ class SlidingPiece < Piece
 
   CARD_DELTAS = [[1, 0], [0, 1], [-1, 0], [0, -1]]
 
-  def positions
-
-  end
-
   def sliding_limit(pos, direction)
     dx, dy = direction
     x, y = pos

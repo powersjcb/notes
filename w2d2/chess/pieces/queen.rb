@@ -10,10 +10,10 @@ class Queen < SlidingPiece
   def moves
     valid_moves = []
     (CARD_DELTAS + DIAG_DELTAS).each do |offset|
-      valid_moves << sliding_limit(@position, offset)
+      valid_moves += sliding_limit(@position, offset)
     end
 
-    valid_moves.compact
+    valid_moves
   end
 
 

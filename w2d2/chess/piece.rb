@@ -1,5 +1,7 @@
 class Piece
+
   attr_reader :symbol, :color
+
   def initialize(options)
     @color = options[:color]
     @position = options[:position] # = []

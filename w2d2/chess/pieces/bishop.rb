@@ -1,15 +1,19 @@
 require_relative '../piece'
 
 class Bishop < SlidingPiece
-  OFFSETS = [[1, 1], [-1, 1], [1, -1], [-1, -1]]
+
+  def initialize(options)
+    super(options)
+    @symbol = @color == :black ? "\u2657" : "\u265D"
+  end
 
   def moves
     valid_moves = []
-    CARD_DELTAS.each do |offset|
-      valid_moves << sliding_limit(@position, offset)
+    DIAG_DELTAS.each do |offset|
+      valid_moves += sliding_limit(@position, offset)
     end
 
-    valid_moves.compact
+    valid_moves
   end
 
 

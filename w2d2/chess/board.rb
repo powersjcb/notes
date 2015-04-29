@@ -75,5 +75,17 @@ end
 
 
 
-board = Board.new
-p board[[1,1]].moves
+b = Board.new
+b.grid.each do |row|
+  display_line = []
+  row.each do |space|
+    if space.nil?
+      display_line << "_"
+    else
+      display_line << space.symbol
+    end
+  end
+  puts display_line.join("|")
+end
+
+p b.grid[0][0].moves

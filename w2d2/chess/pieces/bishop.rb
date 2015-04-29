@@ -4,7 +4,12 @@ class Bishop < SlidingPiece
   OFFSETS = [[1, 1], [-1, 1], [1, -1], [-1, -1]]
 
   def moves
-    # position + all relative offsets
+    valid_moves = []
+    CARD_DELTAS.each do |offset|
+      valid_moves << sliding_limit(@position, offset)
+    end
+
+    valid_moves.compact
   end
 
 

@@ -8,10 +8,10 @@ class HumanPlayer
   def provide_input
     puts "#{@name}'s turn."
     puts "Start position"
-    start_pos = gets.chomp.split(",").map(&:to_i)
+    start_pos = gets.chomp
     puts "End position"
-    end_pos   = gets.chomp.split(",").map(&:to_i)
-    return [start_pos, end_pos]
+    end_pos   = gets.chomp
 
+    return [start_pos, end_pos]
   end
 end

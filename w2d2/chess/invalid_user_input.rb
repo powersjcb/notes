@@ -1,0 +1,2 @@
+class InvalidUserInput < StandardError
+end

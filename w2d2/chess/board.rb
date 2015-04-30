@@ -99,19 +99,23 @@ class Board
   end
 
   def checkmate?(color)
-    player_pieces = self.pieces.select { |piece| piece.color == color }
-    player_pieces.all? do |piece|
-      piece.moves.all? { |move| piece.move_into_check?(move) }
+    return false unless check?(color)
+
+    pieces.select { |piece| piece.color == color }.all? do |piece|
+      piece.valid_moves.empty?
     end
   end
 
   def check?(color)
-    king_pos = pieces.find do |el|
-      el.is_a?(King) && el.color == color
-    end.position
-
+    king_pos = find_king(color).position
     pieces.any? do |piece|
       piece.moves.include?(king_pos)
+    end
+  end
+
+  def find_king(color)
+    pieces.find do |el|
+      el.is_a?(King) && el.color == color
     end
   end
 
@@ -129,20 +133,37 @@ class Board
       puts display_line.join("")
     end
     puts "  a  b  c  d  e  f  g  h"
+    puts "CHECKMATE BLACK" if checkmate?(:black)
+    puts "CHECKMATE WHITE" if checkmate?(:white)
   end
-
-
-
-
-
 end
 
 
+if __FILE__ == $0
 #
-# b = Board.new
-# b.render
-# b.grid[0][0].move!(b, [5,4])
-# b.render
+  b = Board.new
+  b.move([6,5],[5,5])
+  b.move([1,4],[3,4])
+  b.move([6,6],[4,6])
+  b.move([0,3],[4,7])
+  b.render
+  p b.checkmate?(:white)
+  p b.checkmate?(:black)
+
+  # f2, f3
+  # e7, e5
+  # g2, g4
+  # d8, h4
+
+
+  b.pieces.each do |piece|
+    p piece.position if !piece.valid_moves.empty? && piece.color == :white
+    p piece.valid_moves if piece.color == :white && !piece.valid_moves.empty?
+  end
+  # b.render
+  # b.grid[0][0].move(b, [5,4])
+  # b.render
 # p b.check?(:white)
 #
 # # puts c.grid
+end

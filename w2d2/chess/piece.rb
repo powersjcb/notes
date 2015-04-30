@@ -17,12 +17,17 @@ class Piece
     checking_board.check?(@color)
   end
 
-  def valid_move(pos)
-    moves.include?(pos)
-  end
-
   def own_piece?(pos)  # returns true if empty or enemy
     return false if @board.piece_at(pos).nil?
     @color == @board.piece_at(pos).color
   end
+
+  def valid_move(pos)
+    valid_moves.include?(pos)
+  end
+
+  def valid_moves
+    moves.reject { |move| move_into_check?(move) }
+  end
+
 end

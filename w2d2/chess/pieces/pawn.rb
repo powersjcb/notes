@@ -9,10 +9,8 @@ class Pawn < Piece
   end
 
   def offsets
-    # movement direction, negative is up
     sign = @color == :white ? -1 : 1
     candidate_offsets = [[sign, 0], [sign, -1], [sign, 1]]
-    # double move, on first movement
     candidate_offsets << [(2 * sign), 0] if @moved == false
 
     candidate_offsets
@@ -20,7 +18,7 @@ class Pawn < Piece
 
   def moves
     valid_moves = []
-    self.offsets.each do |offset|
+    offsets.each do |offset|
       dx, dy = offset
       x, y = @position
       pos = [x + dx, y + dy]

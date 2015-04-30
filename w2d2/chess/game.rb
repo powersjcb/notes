@@ -4,27 +4,33 @@ class Game
 
   def initialize
     @board = Board.new
+    @player1 = HumanPlayer.new
+    @player2 = HumanPlayer.new
   end
 
   def play
-
+    debugger
     puts "Welcome to chess!"
-
-    loop  do
+    turn = 1
+    until @board.checkmate?(:black)# || @board.checkmate?(:white)
       render
-      accept_input
+      @player1.play_turn if turn.odd?
+      @player2.play_turn if turn.even?
+      turn += 1
     end
-
   end
 
   def render
     @board.render
-    # puts "#{color} player's turn."
   end
 
   def accept_input
-    debugger
-    # begin
+  end
+end
+
+class HumanPlayer
+  def play_turn
+    begin
       # puts "Player #{player} turn. Input starting position as '0, 0'"
       start_pos = gets.chomp.split(",").map(&:to_i)
       # puts "Player #{player} turn. Input ending position as '0, 0'"
@@ -33,9 +39,9 @@ class Game
       piece = @board.grid[row][col]
 
       piece.move(@board, end_pos)
-    # rescue InvalidMoveError
-    #   puts "invalid input, try again"
-    # end
+    rescue InvalidMoveError
+      puts "invalid input, try again"
+    end
   end
 end
 

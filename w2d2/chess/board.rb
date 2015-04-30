@@ -79,7 +79,7 @@ class Board
   end
 
   def checkmate?(color)
-    player_pieces = @grid.pieces.select { |piece| piece.color == color }
+    player_pieces = pieces.select { |piece| piece.color == color }
     player_pieces.all? do |piece|
       piece.moves.all? { |move| move_into_check?(move) }
     end

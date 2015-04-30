@@ -11,7 +11,7 @@ class Piece
 
   def move_into_check?(pos)
     checking_board = @board.deep_dup
-    move!(checking_board, pos)
+    checking_board[@position].move!(checking_board, pos)
     king_pos = checking_board.pieces.find do |el|
       el.is_a?(King) && el.color == @color
     end.position

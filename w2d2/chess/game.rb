@@ -1,21 +1,24 @@
 require_relative 'board.rb'
+require_relative 'human_player.rb'
+require_relative 'computer_player.rb'
 
 class Game
 
+
+
   def initialize
     @board = Board.new
-    @player1 = HumanPlayer.new
-    @player2 = HumanPlayer.new
+    @player1 = HumanPlayer.new("Player 1")
+    @player2 = HumanPlayer.new("Player 2")
   end
 
   def play
-    debugger
     puts "Welcome to chess!"
     turn = 1
-    until @board.checkmate?(:black)# || @board.checkmate?(:white)
+    until @board.checkmate?(:black) || @board.checkmate?(:white)
       render
-      @player1.play_turn if turn.odd?
-      @player2.play_turn if turn.even?
+      accept_input(turn)
+
       turn += 1
     end
   end
@@ -24,25 +27,30 @@ class Game
     @board.render
   end
 
-  def accept_input
-  end
-end
-
-class HumanPlayer
-  def play_turn
+  def accept_input(turn)
     begin
-      # puts "Player #{player} turn. Input starting position as '0, 0'"
-      start_pos = gets.chomp.split(",").map(&:to_i)
-      # puts "Player #{player} turn. Input ending position as '0, 0'"
-      end_pos   = gets.chomp.split(",").map(&:to_i)
-      row, col = start_pos
-      piece = @board.grid[row][col]
+      player = turn.odd? ? @player1 : @player2
+      start_pos, end_pos = player.provide_input
+      @board.move(start_pos, end_pos)
 
-      piece.move(@board, end_pos)
     rescue InvalidMoveError
       puts "invalid input, try again"
+    rescue CheckError
+      puts "Invalid move, can't put self in check"
     end
+  end
+
+
+  def translate_input(chess_code)
+    row = 
+    col =
+
+    grid_pos = [row, col]
   end
 end
 
-Game.new.play
+
+if __FILE__ == $0
+  # if ARGV.shift == "interactive"
+  Game.new.play
+end

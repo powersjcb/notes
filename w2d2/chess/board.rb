@@ -65,7 +65,6 @@ class Board
   def move(p1, p2)
     if self[p1].valid_move(p2)
       if !self[p1].move_into_check?(p2)
-
         move!(p1, p2)
       else
         raise CheckError
@@ -156,10 +155,12 @@ if __FILE__ == $0
   # d8, h4
 
 
-  b.pieces.each do |piece|
-    p piece.position if !piece.valid_moves.empty? && piece.color == :white
-    p piece.valid_moves if piece.color == :white && !piece.valid_moves.empty?
-  end
+p b.piece_at([6,7]).moves
+
+  # b.pieces.each do |piece|
+  #   p piece.position if !piece.valid_moves.empty? && piece.color == :white
+  #   p piece.valid_moves if piece.color == :white && !piece.valid_moves.empty?
+  # end
   # b.render
   # b.grid[0][0].move(b, [5,4])
   # b.render

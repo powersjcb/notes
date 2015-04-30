@@ -19,13 +19,15 @@ class Pawn < Piece
   def moves
     valid_moves = []
     offsets.each do |offset|
-      dx, dy = offset
-      x, y = @position
-      pos = [x + dx, y + dy]
+      row_o, col_o = offset
+      row, col = @position
+      pos = [row + row_o, col + col_o]
+
       next if !@board.on_board?(pos) # not on board
-      next if (dy == 0) && @board.occupied?(pos) # moving forward occup
-      next if (dy == 1 || dy == -1) && !@board.occupied?(pos) && own_piece?(pos) # diag/occupied
-      valid_moves << [x + dx, y + dy]
+      next if (col_o == 0) && @board.occupied?(pos) # moving forward occupied spot
+      next if (row_o == 2) && @board.occupied?([row+1, col])
+      next if (col_o == 1 || col_o == -1) && !@board.occupied?(pos) && own_piece?(pos) # diag/occupied
+      valid_moves << pos
     end
 
     valid_moves

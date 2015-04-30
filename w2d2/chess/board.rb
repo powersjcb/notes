@@ -28,7 +28,7 @@ class Board
     @grid.flatten.compact.each do |piece|
       new_pos = piece.position
       row, col = new_pos
-      options = {postion:new_pos.dup, color:piece.color,
+      options = {position: new_pos.dup, color:piece.color,
                  board:new_board, moved:piece.moved}
       new_board.grid[row][col] = piece.class.new(options)
     end
@@ -79,33 +79,45 @@ class Board
   end
 
   def checkmate?(color)
-
+    player_pieces = @grid.pieces.select { |piece| piece.color == color }
+    player_pieces.all? do |piece|
+      piece.moves.all? { |move| move_into_check?(move) }
+    end
   end
 
   def check?(color)
+    # debugger
+    king_pos = pieces.find do |el|
+      el.is_a?(King) && el.color == color
+    end.position
 
+    pieces.any? do |piece|
+      piece.moves.include?(king_pos)
+    end
   end
 
-
+  def render
+    @grid.each do |row|
+      display_line = []
+      row.each do |space|
+        if space.nil?
+          display_line << "_"
+        else
+          display_line << space.symbol
+        end
+      end
+      puts display_line.join("|")
+    end
+  end
 
 end
 
 
-
-b = Board.new
-p b.grid.first.first.object_id
-p b.deep_dup.grid.first.first.object_id
-# b.grid.each do |row|
-#   display_line = []
-#   row.each do |space|
-#     if space.nil?
-#       display_line << "_"
-#     else
-#       display_line << space.symbol
-#     end
-#   end
-#   puts display_line.join("|")
-# end
-
-
-# p b.grid[0][1].moves
+#
+# b = Board.new
+# b.render
+# b.grid[0][0].move!(b, [5,4])
+# b.render
+# p b.check?(:white)
+#
+# # puts c.grid

@@ -1,6 +1,7 @@
 class King < SteppingPiece
 
-  OFFSETS = [-1, 0, 1].permutation(2).to_a
+  OFFSETS = [[1, 0], [0, 1], [-1, 0], [0, -1],
+            [1, -1], [1, 1], [-1, 1], [-1, -1]]
 
   def initialize(options)
     super(options)

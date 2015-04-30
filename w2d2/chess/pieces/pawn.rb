@@ -26,7 +26,7 @@ class Pawn < Piece
       pos = [x + dx, y + dy]
       next if !@board.on_board?(pos) # not on board
       next if (dy == 0) && @board.occupied?(pos) # moving forward occup
-      next if (dy == 1 || dy == -1) && !@board.occupied?(pos) && ownpiece?(pos) # diag/occupied
+      next if (dy == 1 || dy == -1) && !@board.occupied?(pos) && own_piece?(pos) # diag/occupied
       valid_moves << [x + dx, y + dy]
     end
 

@@ -10,22 +10,25 @@ class Piece
   end
 
   def move_into_check?(pos)
-    checking_board = board.deep_dup
+    checking_board = @board.deep_dup
     move!(checking_board, pos)
-    king_pos = checking_board.pieces.find { |el| el.is_a?(King) }.position
+    king_pos = checking_board.pieces.find do |el|
+      el.is_a?(King) && el.color == @color
+    end.position
 
     checking_board.pieces.any? do |piece|
-      piece.moves.include?(king_pos)
+      # puts piece
+      piece.moves.include?(king_pos) #king_pos
     end
   end
 
-
-
-
-  # !move_into_check?(pos)
-
   def move(board, pos)
-    move!(board,pos) if valid_move(pos)
+    if valid_move(pos) && !move_into_check?(pos)
+      move!(board, pos)
+    else
+      raise InvalidMoveError
+      puts "invalid move"
+    end
   end
 
   def move!(board, pos)
@@ -33,6 +36,7 @@ class Piece
     board.grid[row][col] = self
     r_old, c_old = @position
     board.grid[r_old][c_old] = nil
+    @position = pos
   end
 
   def valid_move(pos)

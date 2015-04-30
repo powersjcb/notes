@@ -5,8 +5,10 @@ class SlidingPiece < Piece
   CARD_DELTAS = [[1, 0], [0, 1], [-1, 0], [0, -1]]
 
   def sliding_limit(pos, direction)
+    # debugger
     dx, dy = direction
     x, y = pos
+    byebug if x.nil? || y.nil?
     pos = [x + dx, y + dy]
 
     directional_moves = []

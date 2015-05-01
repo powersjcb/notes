@@ -1,5 +1,6 @@
-require_relative 'invalid_input_error'
 require_relative 'keypress'
+require_relative 'invalid_input_error'
+require_relative 'out_of_turn_error'
 
 class HumanPlayer
   extend Keypressable
@@ -16,29 +17,39 @@ class HumanPlayer
   def cursor_select
     done_selecting = false
 
-    until done_selecting
-      system('clear')
-      @board.render
+    begin
+      @board.clear_buffer
 
-      case HumanPlayer.read_char
-      when "\e[A"   # up arrow
-        @board.cursor_up
-      when "\e[B"   # down arrow
-        @board.cursor_down
-      when "\e[C"   # right
-        @board.cursor_right
-      when "\e[D"   # left
-        @board.cursor_left
-      when " "      # space, add to buffer
-        @board.add_to_buffer
-      when "\r"     # on hitting enter
-        @board.play_buffer
+      until done_selecting
 
-        done_selecting = true
-      when "\u0003" # exit on ctr + c
-        "Thanks for playing"
-        exit
+        system('clear')
+        @board.render
+
+        case HumanPlayer.read_char
+        when "\e[A"   # up arrow
+          @board.cursor_up
+        when "\e[B"   # down arrow
+          @board.cursor_down
+        when "\e[C"   # right
+          @board.cursor_right
+        when "\e[D"   # left
+          @board.cursor_left
+        when " "      # space, add to buffer
+          @board.add_to_buffer
+        when "\e"     #escape, clear buffer
+          @board.clear_buffer
+        when "\r"     # on hitting enter
+          @board.play_buffer
+          done_selecting = true
+        when "\u0003" # exit on ctr + c
+          "Thanks for playing"
+          exit
+        end
       end
+
+    rescue InvalidInputError, OutOfTurnError
+      puts "invalid move"
+      retry
     end
   end
 end

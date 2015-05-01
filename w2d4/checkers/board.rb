@@ -9,6 +9,7 @@ class Board
     @grid = Array.new(8) { Array.new(8) }
     @cursor = [2,3]
     @moves_buffer = []
+    @player_color = :red
     seed_grid unless seed == false
   end
 
@@ -34,8 +35,12 @@ class Board
   end
 
   def move(moves_array)  # [start_pos, next, next, next]
+    # raise
+    raise OutOfTurnError if self[moves_array.first].color != @player_color
     raise InvalidInputError if moves_array.count < 2
     self[moves_array.shift].perform_moves(moves_array)
+
+    @player_color = ( @player_color == :red) ? :white : :red
   end
 
   def on_board?(pos)
@@ -56,7 +61,9 @@ class Board
     8.times do |row|
       raster_line = []
       8.times do |col|
-        if @cursor != [row, col]
+        if @cursor != [row, col] && @moves_buffer.include?([row,col])
+          bg_color = :green
+        elsif @cursor != [row, col]
           bg_color = (col + row).even? ? :red : :black
         else #cursor position
           bg_color = :light_blue
@@ -71,6 +78,12 @@ class Board
       end
       puts "#{row}" + raster_line.join("")
     end
+    render_stats
+  end
+
+  def render_stats
+    color = @player_color == :red ? "Red" : "White"
+    puts "#{color}'s move'"
     puts "Cursor location: #{@cursor}"
     puts "Moves selected: #{@moves_buffer}"
   end
@@ -92,6 +105,10 @@ class Board
 
   def add_to_buffer
     @moves_buffer << @cursor.dup
+  end
+
+  def clear_buffer
+    @moves_buffer = []
   end
 
   def cursor_up

@@ -1,3 +1,3 @@
-class IvalidInputError < StandardError
+class InvalidInputError < StandardError
 
 end

@@ -18,6 +18,7 @@ class Game
       player.cursor_select
       turn += 1
     end
+    puts "Turn: #{turn}"
     @board.render
   end
 end

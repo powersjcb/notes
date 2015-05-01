@@ -3,9 +3,12 @@ require 'colorize'
 require_relative 'piece'
 
 class Board
+  attr_reader
 
   def initialize(seed = true)
     @grid = Array.new(8) { Array.new(8) }
+    @cursor = [2,3]
+    @moves_buffer = []
     seed_grid unless seed == false
   end
 
@@ -31,6 +34,7 @@ class Board
   end
 
   def move(moves_array)  # [start_pos, next, next, next]
+    raise InvalidInputError if moves_array.count < 2
     self[moves_array.shift].perform_moves(moves_array)
   end
 
@@ -52,7 +56,11 @@ class Board
     8.times do |row|
       raster_line = []
       8.times do |col|
-        bg_color = (col + row).even? ? :red : :black
+        if @cursor != [row, col]
+          bg_color = (col + row).even? ? :red : :black
+        else #cursor position
+          bg_color = :light_blue
+        end
         item = self[[row,col]]
         if item.nil?
           raster_line << "   ".colorize(:background => bg_color)
@@ -63,6 +71,8 @@ class Board
       end
       puts "#{row}" + raster_line.join("")
     end
+    puts "Cursor location: #{@cursor}"
+    puts "Moves selected: #{@moves_buffer}"
   end
 
   def seed_grid
@@ -76,27 +86,56 @@ class Board
     end
   end
 
+######################
+### cursor methods ###
+######################
+
+  def add_to_buffer
+    @moves_buffer << @cursor.dup
+  end
+
+  def cursor_up
+    @cursor[0] -= 1 if @cursor.first - 1 >= 0
+  end
+
+  def cursor_down
+    @cursor[0] += 1 if @cursor.first + 1 <= 7
+  end
+
+  def cursor_left
+    @cursor[1] -= 1 if @cursor.last - 1 >= 0
+  end
+
+  def cursor_right
+    @cursor[1] += 1 if @cursor.last + 1 <= 7
+  end
+
+  def play_buffer
+    move(@moves_buffer)
+    @moves_buffer = []
+  end
+
 end
 
 if __FILE__ == $0
   b = Board.new
   # p b
-  b.move([[2,1],[3,2]])
-  b.move([[3,2],[4,1]])
-  b.move([[1,2],[2,1]])
-  b.move([[2,3],[3,4]])
+  # b.move([[2,1],[3,2]])
+  # b.move([[3,2],[4,1]])
+  # b.move([[1,2],[2,1]])
+  # b.move([[2,3],[3,4]])
   b.render
-  b[[5,2]].perform_moves([[3,0],[1,2],[0,1]])
-  b.render
-  b.move([[0,1],[1,2]])
-  b.move([[5,0],[3,2]])
-  b.move([[3,2],[2,3]])
-  b.move([[2,3],[0,1]])
-  b.render
-  b.move([[0,1],[1,2]])
-  b.render
+  # b[[5,2]].s([[3,0],[1,2],[0,1]])
+  # b.render
+  # b.move([[0,1],[1,2]])
+  # b.move([[5,0],[3,2]])
+  # b.move([[3,2],[2,3]])
+  # b.move([[2,3],[0,1]])
+  # b.render
+  # b.move([[0,1],[1,2]])
+  # b.render
 
   # b.move([0,1],[1,2])
-  # b[[5,2]].perform_moves!([[3,0],[1,2]])
+  # b[[5,2]].s!([[3,0],[1,2]])
   # b.move([5,2],[3,0])
 end

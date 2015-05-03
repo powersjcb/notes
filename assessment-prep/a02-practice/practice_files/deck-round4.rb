@@ -1,3 +1,5 @@
+# 29min
+
 require 'pry'
 require_relative 'card'
 

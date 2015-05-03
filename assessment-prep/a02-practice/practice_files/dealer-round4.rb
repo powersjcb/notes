@@ -3,7 +3,7 @@ require_relative 'player'
 class Dealer < Player
   attr_reader :bets
 
-  def initialize(name = 'dealer', bankroll = 0)
+  def initialize(name = "dealer", bankroll = 0)
     super
     @bets = {}
   end
@@ -21,8 +21,8 @@ class Dealer < Player
   end
 
   def pay_bets
-    @bets.each do |player, bet_amt|
-      player.pay_winnings(bet_amt * 2) if player.hand.beats?(hand)
+    @bets.each do |player, amt|
+      player.pay_winnings(amt * 2) if player.hand.beats?(hand)
     end
   end
 end

@@ -39,12 +39,15 @@ class Card
     :queen => 10,
     :king  => 10
   }
+
   # Returns an array of all suits.
   def self.suits
+    SUIT_STRINGS.keys
   end
 
   # Returns an array of all values.
   def self.values
+    VALUE_STRINGS.keys
   end
 
   attr_reader :suit, :value
@@ -65,6 +68,7 @@ class Card
 
   # Compares two cards to see if they're equal in suit & value.
   def ==(other_card)
+    self.suit == other_card.suit && self.value == other_card.value
   end
 
   def to_s

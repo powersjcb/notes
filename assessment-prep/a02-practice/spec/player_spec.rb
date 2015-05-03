@@ -22,6 +22,7 @@ describe Player do
 
   describe "#return_cards" do
     let(:deck) { double("deck") }
+    let(:hand) { double("hand", :return_cards => nil) }
 
     before(:each) { player.hand = hand }
 
@@ -37,6 +38,7 @@ describe Player do
   end
 
   describe "#place_bet" do
+    let(:dealer) { double("dealer", :take_bet => nil) }
 
     it "registers bet with dealer" do
       expect(dealer).to receive(:take_bet).with(player, 10_000)

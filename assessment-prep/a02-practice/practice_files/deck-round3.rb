@@ -5,14 +5,14 @@ require_relative 'card'
 class Deck
   # Returns an array of all 52 playing cards.
   def self.all_cards
-    cards = []
+    card_deck = []
     Card.suits.each do |suit|
       Card.values.each do |value|
-        cards << Card.new(suit, value)
+        card_deck << Card.new(suit, value)
       end
     end
 
-    cards
+    card_deck
   end
 
   def initialize(cards = Deck.all_cards)

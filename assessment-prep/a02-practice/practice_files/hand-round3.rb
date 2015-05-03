@@ -1,3 +1,4 @@
+require 'deck'
 require 'pry'
 class Hand
   # This is called a *factory method*; it's a *class method* that
@@ -15,8 +16,8 @@ class Hand
   end
 
   def points
+    sum  = 0
     aces = 0
-    sum = 0
     @cards.each do |card|
       if card.value == :ace
         sum += 11
@@ -26,9 +27,9 @@ class Hand
       end
     end
 
-    until aces == 0 || sum <= 21
+    until sum < 22 || aces == 0
+      sum  -= 10
       aces -= 1
-      sum -= 10
     end
 
     sum
@@ -45,7 +46,9 @@ class Hand
 
   def beats?(other_hand)
     return false if busted?
-    points > other_hand.points || other_hand.busted?
+    return points > other_hand.points unless other_hand.busted?
+
+    true
   end
 
   def return_cards(deck)

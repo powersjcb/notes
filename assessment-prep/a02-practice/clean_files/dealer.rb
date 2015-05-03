@@ -4,9 +4,6 @@ class Dealer < Player
   attr_reader :bets
 
   def initialize
-    super("dealer", 0)
-
-    @bets = {}
   end
 
   def place_bet(dealer, amt)

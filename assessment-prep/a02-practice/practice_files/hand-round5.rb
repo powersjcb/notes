@@ -5,7 +5,8 @@ class Hand
   # object. This is in contrast to the `#initialize` method that
   # expects an `Array` of cards to hold.
   def self.deal_from(deck)
-    Hand.new(deck.take(2))
+    cards = deck.take(2)
+    Hand.new(cards)
   end
 
   attr_accessor :cards
@@ -15,20 +16,21 @@ class Hand
   end
 
   def points
-    aces = 0
     sum = 0
+    aces = 0
+
     @cards.each do |card|
       if card.value == :ace
-        sum += 11
         aces += 1
+        sum += 11
       else
         sum += card.blackjack_value
       end
     end
 
-    until aces == 0 || sum <= 21
-      aces -= 1
-      sum -= 10
+    until aces == 0 || sum < 22
+      aces -=1
+      sum -=10
     end
 
     sum
@@ -41,6 +43,7 @@ class Hand
   def hit(deck)
     raise "already busted" if busted?
     @cards.concat(deck.take(1))
+
   end
 
   def beats?(other_hand)

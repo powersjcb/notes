@@ -14,7 +14,9 @@ class Dealer < Player
   end
 
   def play_hand(deck)
-    hand.hit(deck) until hand.points >= 17 || hand.busted?
+    until hand.points >= 17
+      @hand.hit(deck)
+    end
   end
 
   def take_bet(player, amt)
@@ -22,8 +24,8 @@ class Dealer < Player
   end
 
   def pay_bets
-    @bets.each do |player, amt|
-      player.pay_winnings(amt * 2) if player.hand.beats?(hand)
+    @bets.each do |player, bet|
+      player.pay_winnings(bet * 2) if player.hand.beats?(self.hand)
     end
   end
 end

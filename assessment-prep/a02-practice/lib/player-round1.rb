@@ -5,6 +5,7 @@ class Player
   def initialize(name, bankroll)
     @name = name
     @bankroll = bankroll
+    @hand
   end
 
   def pay_winnings(bet_amt)
@@ -12,12 +13,12 @@ class Player
   end
 
   def return_cards(deck)
-    hand.return_cards(deck)
-    self.hand = nil
+    @hand.return_cards(deck)
+    @hand = nil
   end
 
   def place_bet(dealer, bet_amt)
-    raise "player can't cover bet" if bet_amt > bankroll
+    raise "player can't cover bet" if bet_amt > @bankroll
     dealer.take_bet(self, bet_amt)
     @bankroll -= bet_amt
   end

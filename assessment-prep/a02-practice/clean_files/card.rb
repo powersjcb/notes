@@ -42,12 +42,10 @@ class Card
 
   # Returns an array of all suits.
   def self.suits
-    SUIT_STRINGS.keys
   end
 
   # Returns an array of all values.
   def self.values
-    VALUE_STRINGS.keys
   end
 
   attr_reader :suit, :value

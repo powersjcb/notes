@@ -15,19 +15,18 @@ class Hand
   end
 
   def points
-    sum  = 0
+    sum = 0
     aces = 0
     cards.each do |card|
       if card.value == :ace
-        sum  += 11
         aces += 1
-      else
-        sum += card.blackjack_value
+        sum += 11
+        next
       end
+      sum += card.blackjack_value
     end
-
     while sum > 21 && aces > 0
-      sum  -= 10
+      sum -= 10
       aces -= 1
     end
 
@@ -40,12 +39,11 @@ class Hand
 
   def hit(deck)
     raise "already busted" if busted?
-    @cards.concat(deck.take(1))
+    cards.concat(deck.take(1) )
   end
 
   def beats?(other_hand)
-    return false if busted?
-    points > other_hand.points || other_hand.busted?
+    (points > other_hand.points && !busted?) || other_hand.busted?
   end
 
   def return_cards(deck)

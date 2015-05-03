@@ -10,22 +10,23 @@ class Card
   }
 
   VALUE_STRINGS = {
-    :deuce => "2",
-    :three => "3",
-    :four  => "4",
-    :five  => "5",
-    :six   => "6",
-    :seven => "7",
-    :eight => "8",
-    :nine  => "9",
+    :deuce => " 2",
+    :three => " 3",
+    :four  => " 4",
+    :five  => " 5",
+    :six   => " 6",
+    :seven => " 7",
+    :eight => " 8",
+    :nine  => " 9",
     :ten   => "10",
-    :jack  => "J",
-    :queen => "Q",
-    :king  => "K",
-    :ace   => "A"
+    :jack  => " J",
+    :queen => " Q",
+    :king  => " K",
+    :ace   => " A"
   }
 
-  BLACKJACK_VALUE = {
+  ORDER = {
+    :ace   => 1,
     :deuce => 2,
     :three => 3,
     :four  => 4,
@@ -35,9 +36,9 @@ class Card
     :eight => 8,
     :nine  => 9,
     :ten   => 10,
-    :jack  => 10,
-    :queen => 10,
-    :king  => 10
+    :jack  => 11,
+    :queen => 12,
+    :king  => 13
   }
 
   # Returns an array of all suits.
@@ -50,20 +51,20 @@ class Card
     VALUE_STRINGS.keys
   end
 
-  attr_reader :suit, :value
+  attr_reader :suit, :value, :color
 
-  def initialize(suit, value)
+  def initialize(options)
+    suit  = options[:suit]
+    value = options[:value]
     unless Card.suits.include?(suit) and Card.values.include?(value)
       raise "illegal suit (#{suit}) or value (#{value})"
     end
-
+    @color = ([:clubs, :spades].include?(suit)) ? :black : :red
     @suit, @value = suit, value
   end
 
-  def blackjack_value
-    raise "ace has special value" if value == :ace
-
-    BLACKJACK_VALUE[value]
+  def order
+    ORDER[value]
   end
 
   # Compares two cards to see if they're equal in suit & value.

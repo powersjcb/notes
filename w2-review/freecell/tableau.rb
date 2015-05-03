@@ -122,5 +122,12 @@ class Tableau
 end
 
 b = Tableau.new
-p b.piles.first.last.moves
+# p b.piles.first.last.valid_move?(13)
+
+all_moves = []
+
+b.cards.each do |card|
+  all_moves << [card.position, card.value, card.moves]
+end
+p all_moves
 b.render_all

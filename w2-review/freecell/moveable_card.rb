@@ -20,13 +20,17 @@ class MoveableCard < Card
     (0..15).to_a.select { |new_pos| valid_move?(new_pos) }
   end
 
-  def valid_move?(new_p)
+  def valid_move?(new_pos)
     if top_of_stack?
-      empty_stack?(new_p) && not_foundation?(new_p) ||
-        top_is_consecutive?(new_p) && !top_matches_color?(new_p) ||
-        valid_foundation?(new_p) && consecutive?(new_p)
+      empty_stack?(new_pos) && !foundation?(new_pos) ||
+        valid_foundation_move?(new_pos) ||
+        !foundation?(new_pos) && consecutive_with_top?(new_pos) &&
+          !top_matches_color?(new_pos)
+
+
     else # burried in a stack
-      ordered_and_alternating_above? && not_burried_too_deep?
+      !foundation?(new_pos) && !freecell?(new_pos) &&
+        consecutive_with_top?(new_pos) && not_burried_too_deep?
     end
   end
 
@@ -46,12 +50,18 @@ private
     @tableau.piles[new_pos].empty?
   end
 
-  def valid_foundation?(new_pos)
-
+  def valid_foundation_move?(new_pos)
+    !empty_stack?(new_pos) && suit_foundation?(new_pos) &&
+      ascending_order?(new_pos) ||
+      suit_foundation?(new_pos) && value == :ace
   end
 
   def foundation?(new_pos)
     new_pos.between?(12, 15)
+  end
+
+  def freecell?(new_pos)
+    new_pos.between?(8, 11)
   end
 
   def suit_foundation?(new_pos)
@@ -81,15 +91,19 @@ private
     @tableau.piles[row].drop(depth).count + 1
   end
 
-  def not_burried_too_deep
+  def not_burried_too_deep?
     number_to_top <= @tableau.free_cells + 1
+  end
+
+  def ascending_order?(new_pos)
+    value == top_card(new_pos).value - 1
   end
 
   def top_card(new_pos)
     @tableau.piles[new_pos].last
   end
 
-  def top_is_consecutive?(new_pos)
+  def consecutive_with_top?(new_pos)
     consecutive?(top_card(new_pos))
   end
 

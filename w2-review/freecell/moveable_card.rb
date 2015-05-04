@@ -1,5 +1,6 @@
 require_relative 'card'
-require 'pry'
+require 'colorize'
+
 class MoveableCard < Card
   # piles       rows 0..7
   # freecells   rows 8..11
@@ -96,7 +97,7 @@ private
   end
 
   def ascending_order?(new_pos)
-    value == top_card(new_pos).value - 1
+    value == top_card(new_pos).order - 1
   end
 
   def top_card(new_pos)

@@ -43,7 +43,7 @@ class FreeCell
 
       @tableau.move(card_position, new_pile)
 
-    rescue InvalidMoveError => e
+    rescue JSON::ParserError, InvalidMoveError => e
       puts e
       retry
     end

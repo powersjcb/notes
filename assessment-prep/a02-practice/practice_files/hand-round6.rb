@@ -15,20 +15,20 @@ class Hand
   end
 
   def points
-    sum = 0
     aces = 0
+    sum = 0
     @cards.each do |card|
       if card.value == :ace
-        aces += 1
         sum += 11
+        aces += 1
       else
         sum += card.blackjack_value
       end
     end
 
-    until aces == 0 || sum < 22
-      sum -= 10
+    until aces == 0 || sum <= 21
       aces -= 1
+      sum -= 10
     end
 
     sum

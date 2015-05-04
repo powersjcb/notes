@@ -1,3 +1,5 @@
+require 'colorize'
+
 # -*- coding: utf-8 -*-
 
 # Represents a playing card.
@@ -72,6 +74,8 @@ class Card
   end
 
   def to_s
-    VALUE_STRINGS[value] + SUIT_STRINGS[suit]
+    color = [:hearts, :diamonds].include?(suit) ? :red : :black
+    "#{VALUE_STRINGS[value]}#{SUIT_STRINGS[suit]}"
+      .colorize(background: :green, color: color )
   end
 end

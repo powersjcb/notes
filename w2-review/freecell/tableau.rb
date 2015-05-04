@@ -1,12 +1,32 @@
 require_relative 'deck'
+require 'pry-byebug'
+require 'colorize'
+require_relative 'invalid_move_error'
+
+
+
+class String
+  def green_bg
+    colorize(background: :green)
+  end
+
+  def red_token
+    colorize(color: :red, background: :green)
+  end
+
+  def black_token
+    colorize(color: :black, background: :green)
+  end
+end
+
 
 
 class Tableau
 
-  FOUNDATIONS =  {0 => "  ♥",
-                  1 => "  ♠",
-                  2 => "  ♦",
-                  3 => "  ♣"}
+  FOUNDATIONS =  { 0 => "  ♥".red_token,
+                   1 => "  ♠".black_token,
+                   2 => "  ♦".red_token,
+                   3 => "  ♣".black_token }
 
   attr_reader :piles
 
@@ -33,31 +53,64 @@ class Tableau
   end
 
   def deep_dup
+    copied_tab = Tableau.new(false)
+
+    cards.each do |card|
+      options = {suit:     card.suit,     value:   card.value,
+                 position: card.position.dup, tableau: copied_tab}
+      new_card = MoveableCard.new(options)
+      copied_tab.piles[card.position[0]] << new_card
+    end
+
+    copied_tab
   end
 
   def free_cells
-    @piles.take(12).count(&:empty) # excludes foundations
+    @piles.take(12).count(&:empty?) # excludes foundations
   end
 
   def max_pile_size
-    @piles.max(&:count).count
+    @piles.max_by(&:count).count
   end
 
-  def move(p1, p2)
-    unless piles[p1].moves.include?(p2)
+  def move(card_position, stack_position)
+    unless self[card_position].moves.include?(stack_position)
       raise InvalidMoveError.new("invalid move")
     end
+
+    # record size of new position before move
+    new_first_depth = @piles[stack_position].count
+
+    #move cards
+    old_pile, depth = card_position
+    moved_cards = @piles[old_pile].pop(@piles[old_pile].size - depth)
+    @piles[stack_position].concat(moved_cards)
+
+    # update card.position after move
+    d_depth = new_first_depth - depth
+
+    moved_cards.each do |card|
+      card.position = [stack_position, d_depth + card.position[1] ]
+    end
+    nil
   end
 
   def seed_board
-    Deck.build_deck.each.with_index do |card, i|
+    deck = Deck.build_deck
+    deck.shuffle! unless __FILE__ == $0
+    i = 0
+    until deck.count == 0
+      card = deck.deal(1)[0]
       target_pile   = i % 8
       pile_depth    = @piles[target_pile].count
       card.tableau  = self
       card.position = [target_pile, pile_depth]
 
       @piles[target_pile] << card
+      i += 1
     end
+
+    self
   end
 
   def render_all
@@ -67,7 +120,7 @@ class Tableau
   end
 
   def render_foundations
-    line = [" "]
+    line = [" ".green_bg]
     @piles[12..15].each.with_index do |pile, index|
       if pile.empty?
         line << FOUNDATIONS[index]  # needs to show suit of cards
@@ -75,59 +128,63 @@ class Tableau
         line << pile.last.to_s
       end
     end
-    puts "Foundations:"
-    puts line.join(" | ") + " |"
+    puts "Foundations:".green_bg
+    puts line.join(" | ".green_bg) + " |".green_bg
   end
 
   def render_freecells
-    line = [" "]
-    @piles[12..15].each.with_index do |pile, index|
+    line = [" ".green_bg]
+    @piles[8..11].each.with_index do |pile, index|
       if pile.empty?
-        line << "  X"  # needs to show suit of cards
+        line << "  X".green_bg  # needs to show suit of cards
       else
         line << pile.last.to_s
       end
     end
-    puts "Freecells:"
-    puts line.join(" | ") + " |"
+    puts "Freecells:".green_bg
+    puts line.join(" | ".green_bg) + " |".green_bg
   end
 
   def render_labels
-    labels = "   "
-    (max_pile_size).times do |num|
-      labels.concat("  #{num}   ")
+    labels = "   ".green_bg
+    7.times do |num|
+      labels.concat("  #{num}   ".green_bg)
     end
 
     puts labels
   end
 
   def render_piles
-    puts 'Card stacks'
+    puts 'Card piles'.green_bg
     render_labels
-    @piles[0..7].each.with_index do |pile, index|
-      line = [index]
-      if pile.empty?
-        line << 'empty'
-      else
-        pile.each do |item|
-          line << item.to_s
+
+    max_pile_size.times do |row_index|
+      line = [row_index.to_s.green_bg]
+      7.times do |pile_index|
+        if piles[pile_index].empty? && row_index == 0
+          line << "  X ".green_bg
+        elsif self[[pile_index, row_index]].nil?
+          line << "   ".green_bg
+        else # has a card
+          line << self[[pile_index, row_index]].to_s
         end
       end
-    puts line.join(" | ")
+        puts line.join(" | ".green_bg) + " |".green_bg
     end
   end
 
-
+  def won?
+    piles[0..11].all? { |pile| pile.empty? }
+  end
 
 end
 
-b = Tableau.new
-# p b.piles.first.last.valid_move?(13)
 
-all_moves = []
 
-b.cards.each do |card|
-  all_moves << [card.position, card.value, card.moves]
+if __FILE__ == $0
+  b = Tableau.new
+  b.move([0,6],15)
+  b.move([0,5],6)
+  # b.move([1,6])
+  b.render_all
 end
-p all_moves
-b.render_all

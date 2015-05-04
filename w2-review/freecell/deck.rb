@@ -10,7 +10,7 @@ class Deck
       end
     end
 
-    Deck.new(cards).shuffle!
+    Deck.new(cards)#.shuffle!
   end
 
   def initialize(cards)
@@ -27,6 +27,8 @@ class Deck
 
   def shuffle!
     @cards.shuffle!
+
+    self
   end
 
   def deal(n)

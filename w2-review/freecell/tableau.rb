@@ -147,7 +147,7 @@ class Tableau
 
   def render_labels
     labels = "   ".green_bg
-    7.times do |num|
+    8.times do |num|
       labels.concat("  #{num}   ".green_bg)
     end
 
@@ -160,7 +160,7 @@ class Tableau
 
     max_pile_size.times do |row_index|
       line = [row_index.to_s.green_bg]
-      7.times do |pile_index|
+      8.times do |pile_index|
         if piles[pile_index].empty? && row_index == 0
           line << "  X ".green_bg
         elsif self[[pile_index, row_index]].nil?
@@ -183,8 +183,8 @@ end
 
 if __FILE__ == $0
   b = Tableau.new
-  b.move([0,6],15)
-  b.move([0,5],6)
+  # b.move([0,6],15)
+  # b.move([0,5],6)
   # b.move([1,6])
   b.render_all
 end

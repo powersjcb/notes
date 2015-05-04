@@ -41,7 +41,10 @@ class MoveableCard < Card
   end
 
 private
-  # methods looking at card on top of piles
+
+  def ascending_order?(new_pos)
+    order == top_card(new_pos).order + 1
+  end
 
   def consecutive?(card)
     order + 1 == card.order
@@ -52,7 +55,7 @@ private
   end
 
   def valid_foundation_move?(new_pos)
-    !empty_stack?(new_pos) && suit_foundation?(new_pos) &&
+    !empty_stack?(new_pos) && top_matches_suit?(new_pos) &&
       ascending_order?(new_pos) ||
       suit_foundation?(new_pos) && value == :ace
   end
@@ -94,10 +97,6 @@ private
 
   def not_burried_too_deep?
     number_to_top <= @tableau.free_cells + 1
-  end
-
-  def ascending_order?(new_pos)
-    value == top_card(new_pos).order - 1
   end
 
   def top_card(new_pos)

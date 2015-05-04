@@ -1,4 +1,8 @@
 require_relative 'card'
+<<<<<<< HEAD
+=======
+require 'colorize'
+>>>>>>> 95f7d16196782bf6f93c3ed6d13f7e1d9de88624
 
 class MoveableCard < Card
   # piles       rows 0..7

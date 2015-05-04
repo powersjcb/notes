@@ -15,28 +15,20 @@
 </p>
 
 ## Week 2 - OOP
-<p>
-  <a href=https://github.com/powersjcb/notes/tree/master/w2d1>
-    Minesweeper (WIP)
-  </a>
-</p>
 
-<p>
-  <a href=https://github.com/powersjcb/notes/tree/master/w2d2/chess>
-    Chess (WIP)
-  </a>
-</p>
 
-<p>
-  <a href=https://github.com/powersjcb/notes/tree/master/w2d4/checkers>
-    Checkers
-  </a>
-</p>
+* [Minesweeper (WIP)](https://github.com/powersjcb/notes/tree/master/w2d1)
+* [Chess (WIP)](https://github.com/powersjcb/notes/tree/master/w2d2/chess)
+* [Checkers](https://github.com/powersjcb/notes/tree/master/w2d4/checkers)
 
-<p>
-  <a href=https://github.com/powersjcb/notes/tree/master/w2-review/freecell>
-    FreeCell (side project)
-  </a>
-</p>
+![Checkers](/w2d4/checkers/checkers.gif)
+
+
+* [FreeCell](https://github.com/powersjcb/notes/tree/master/w2-review/freecell) Play in terminal, still needs cursor support. (side project)
+
+
+![FreeCell](/w2-review/freecell/freecell.png)
+
+
 
 ## Week 3 - SQL/ActiveRecord

@@ -7,13 +7,13 @@ DROP TABLE question_likes;
 
 
 CREATE TABLE users (
-  id integer primary key AUTOINCREMENT NOT NULL,
+  id integer primary key,
   fname VARCHAR(255) NOT NULL,
   lname VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE questions (
-  id integer primary key AUTOINCREMENT NOT NULL,
+  id integer primary key,
   title VARCHAR(255) NOT NULL,
   body TEXT NOT NULL,
   user_id integer references users(id) NOT NULL
@@ -25,7 +25,7 @@ CREATE TABLE question_follows (
 );
 
 CREATE TABLE replies (
-  id integer primary key AUTOINCREMENT NOT NULL,
+  id integer primary key,
   body TEXT NOT NULL,
   user_id integer references users(id) NOT NULL,
   question_id integer references questions(id) NOT NULL,
@@ -34,7 +34,6 @@ CREATE TABLE replies (
 
 
 CREATE TABLE question_likes (
-  id integer primary key AUTOINCREMENT NOT NULL,
   user_id integer references users(id) NOT NULL,
   question_id integer references questions(id) NOT NULL
 );

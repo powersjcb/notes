@@ -18,6 +18,12 @@ require_relative './sqlzoo.rb'
 def null_dept
   # List the teachers who have NULL for their department.
   execute(<<-SQL)
+    SELECT
+      name
+    FROM
+      teachers
+    WHERE
+      dept_id IS NULL
   SQL
 end
 
@@ -25,6 +31,15 @@ def all_teachers_join
   # Use a type of JOIN that will list all teachers and their department,
   # even if the department in NULL/nil.
   execute(<<-SQL)
+    SELECT
+      teachers.name, depts.name
+    FROM
+      teachers
+    FULL OUTER JOIN
+      depts ON teachers.dept_id = depts.id
+    WHERE
+      teachers.name IS NOT NULL
+
   SQL
 end
 
@@ -33,6 +48,15 @@ def all_depts_join
   # NB: you can avoid RIGHT OUTER JOIN (and just use LEFT) by swapping
   # the FROM and JOIN tables.
   execute(<<-SQL)
+    SELECT
+      teachers.name, depts.name
+    FROM
+      teachers
+    RIGHT OUTER JOIN
+      depts ON teachers.dept_id = depts.id
+    WHERE
+      depts.name IS NOT NULL
+
   SQL
 end
 
@@ -41,6 +65,12 @@ def teachers_and_mobiles
   # 444 2266' if no number is given. Show teacher name and mobile
   # #number or '07986 444 2266'
   execute(<<-SQL)
+
+  SELECT
+    name, COALESCE(mobile, '07986 444 2266')
+  FROM
+    teachers
+
   SQL
 end
 

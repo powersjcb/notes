@@ -2,12 +2,33 @@
 #
 # Table name: shortened_urls
 #
-#  id        :integer          not null, primary key
-#  long_url  :text             not null
-#  short_url :string           not null
+#  id           :integer          not null, primary key
+#  long_url     :text             not null
+#  short_url    :string           not null
+#  submitter_id :integer          not null
 #
 
 class ShortenedUrl < ActiveRecord::Base
+  validates(
+    :long_url,
+    length: { maximum: 1023 },
+    presence: true,
+    allow_blank: false
+  )
+
+  belongs_to(
+    :submitter,
+    class_name: "User",
+    foreign_key: :submitter_id,
+    primary_key: :id
+  )
+
+  def self.create_for_user_and_long_url(user, long_url)
+    ShortenedUrl.create!(long_url: long_url,
+                         short_url: ShortenedUrl.random_code,
+                         submitter: user)
+  end
+
   def self.random_code
     new_url = SecureRandom::urlsafe_base64
     until !self.exists?(short_url: new_url)
@@ -15,12 +36,5 @@ class ShortenedUrl < ActiveRecord::Base
     end
 
     new_url
-  end
-
-  def self.create_for_user_and_long_url(user, long_url)
-    ShortenedUrl.create!(long_url: long_url, short_url:
-                        ShortenedUrl.create_for_user_and_long_url )
-
-      # #create!(user, shortened_url_id)
   end
 end

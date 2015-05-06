@@ -30,4 +30,7 @@ if __FILE__ == $0
   # p QuestionLike.most_liked_questions(2)
 
   # p Question.most_liked(2)
+
+
+  p User.find_by_id(1).average_karma
 end

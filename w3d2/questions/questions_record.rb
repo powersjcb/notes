@@ -36,12 +36,10 @@ if __FILE__ == $0
 
 
 a = User.new("lname" => "Johnson", "fname" => "Jack")
-p a
-p User.all
 p a.save
-p User.all
-p a.lname = "Robert"
+# p a.lname = "Robert"
+# p User.all
 p a.save
-p User.all
+# p User.all
 
 end

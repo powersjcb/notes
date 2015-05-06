@@ -1,6 +1,7 @@
 require_relative 'questions_database'
+require_relative 'db_record'
 
-class User
+class User < DBRecord
   attr_accessor :id, :fname, :lname
 
 
@@ -48,7 +49,8 @@ class User
   end
 
   def initialize(args = {})
-    @id, @fname, @lname = args["id"], args["fname"], args["lname"]
+    @fname, @lname = args["fname"], args["lname"]
+    @id = args["id"]
   end
 
 
@@ -83,31 +85,6 @@ class User
 
   def liked_questions
     QuestionLike.liked_questions_for_user_id(@id)
-  end
-
-  def save
-    if @id.nil? &&
-      QuestionsDatabase.execute(<<-SQL, @fname, @lname)
-        INSERT INTO
-          users(fname, lname)
-        VALUES
-          (?, ?);
-      SQL
-
-      @id = QuestionsDatabase.instance.last_insert_row_id
-    else
-      QuestionsDatabase.execute(<<-SQL, @fname, @lname, @id)
-        UPDATE
-          users
-        SET
-          fname = ?,
-          lname = ?
-        WHERE
-          id = ?;
-      SQL
-    end
-    
-    self
   end
 
 end

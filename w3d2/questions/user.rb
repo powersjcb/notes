@@ -3,6 +3,20 @@ require_relative 'questions_database'
 class User
   attr_accessor :id, :fname, :lname
 
+
+  def self.all
+    raw_data = QuestionsDatabase.execute(<<-SQL)
+      SELECT
+        *
+      FROM
+        users
+
+    SQL
+    return nil if raw_data.empty?
+
+    raw_data.map { |row| User.new(row) }
+  end
+
   def self.find_by_id(id)
     raw_data = QuestionsDatabase.execute(<<-SQL, id)
       SELECT
@@ -69,6 +83,31 @@ class User
 
   def liked_questions
     QuestionLike.liked_questions_for_user_id(@id)
+  end
+
+  def save
+    if @id.nil? &&
+      QuestionsDatabase.execute(<<-SQL, @fname, @lname)
+        INSERT INTO
+          users(fname, lname)
+        VALUES
+          (?, ?);
+      SQL
+
+      @id = QuestionsDatabase.instance.last_insert_row_id
+    else
+      QuestionsDatabase.execute(<<-SQL, @fname, @lname, @id)
+        UPDATE
+          users
+        SET
+          fname = ?,
+          lname = ?
+        WHERE
+          id = ?;
+      SQL
+    end
+    
+    self
   end
 
 end

@@ -32,5 +32,16 @@ if __FILE__ == $0
   # p Question.most_liked(2)
 
 
-  p User.find_by_id(1).average_karma
+  # p User.find_by_id(1).average_karma
+
+
+a = User.new("lname" => "Johnson", "fname" => "Jack")
+p a
+p User.all
+p a.save
+p User.all
+p a.lname = "Robert"
+p a.save
+p User.all
+
 end

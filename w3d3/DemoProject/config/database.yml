@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: DemoProject_development
+  host: localhost
+  username: powersjcb
+
+
+test:
+  <<: *default
+  database: DemoProject_test
+#
+production:
+  <<: *default
+  database: DemoProject_production
+  username: DemoProject
+  password: <%= ENV['DEMOPROJECT_DATABASE_PASSWORD'] %>

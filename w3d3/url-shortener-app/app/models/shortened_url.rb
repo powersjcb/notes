@@ -24,6 +24,13 @@ class ShortenedUrl < ActiveRecord::Base
   )
 
   has_many(
+    :tags,
+    class_name: "Tag",
+    foreign_key: :shortened_url_id,
+    primary_key: :id
+  )
+
+  has_many(
     :visits,
     class_name: "Visit",
     foreign_key: "shortened_url_id",
@@ -35,6 +42,13 @@ class ShortenedUrl < ActiveRecord::Base
     -> { distinct },
     through: :visits,
     source: :visitor
+  )
+
+  has_many(
+    :topics,
+    -> { distinct },
+    through: :tags,
+    source: :topic
   )
 
   def self.create_for_user_and_long_url(user, long_url)

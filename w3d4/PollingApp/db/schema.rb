@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150507175049) do
+ActiveRecord::Schema.define(version: 20150507175559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answer_choices", force: :cascade do |t|
+    t.integer  "question_id", null: false
+    t.text     "body",        null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "answer_choices", ["question_id"], name: "index_answer_choices_on_question_id", using: :btree
 
   create_table "polls", force: :cascade do |t|
     t.integer  "author_id",  null: false

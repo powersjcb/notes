@@ -32,10 +32,10 @@ class ShortenedUrl < ActiveRecord::Base
 
   has_many(
     :visitors,
+    -> { distinct },
     through: :visits,
     source: :visitor
   )
-
 
   def self.create_for_user_and_long_url(user, long_url)
     ShortenedUrl.create!(long_url: long_url,

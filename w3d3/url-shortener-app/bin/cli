@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+puts "Input your email:"
+email = gets.chomp
+
+puts "What do you want to do?"
+puts "0. Create shortened URL"
+puts "1. Visit shortened URL"
+action = gets.chomp
+
+loop do
+  if action == '0'
+    puts "Type in your long url"
+    long_url = gets.chomp
+    surl = ShortenedUrl.create_for_user_and_long_url(User.new(email: email), long_url)
+    puts "Short url is: #{surl.short_url}"
+  elsif action == '1'
+    puts "Type in the shortened URL"
+    short_url = gets.chomp
+    Launchy.open(ShortenedUrl.find_by(short_url: short_url).long_url)
+  else
+    break
+  end
+end

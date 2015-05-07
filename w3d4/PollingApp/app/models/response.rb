@@ -33,13 +33,13 @@ class Response < ActiveRecord::Base
     source: :question
   )
 
-  belongs_to(
+  has_one(
     :poll,
     through: :question,
     source: :poll
   )
 
-  belongs_to(
+  has_one(
     :poll_author,
     through: :poll,
     source: :author
@@ -48,9 +48,6 @@ class Response < ActiveRecord::Base
 
   # private
 
-  def
-
-  end
 
   def respondent_has_not_already_answered_question
     if sibling_responses.where('user_id != ?', self.user_id).exists?

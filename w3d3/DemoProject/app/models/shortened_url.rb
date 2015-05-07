@@ -24,7 +24,11 @@ class ShortenedUrl < ActiveRecord::Base
 private
 
   def shorten_url
-    @short_url = SecureRandom::urlsafe_base64
+    uniq_id = false
+    until uniq_id?
+      @short_url = SecureRandom::urlsafe_base64
+      uniq_id? = true if @short_url !=
+    end
   end
 
 

@@ -10,6 +10,8 @@
 #
 
 class Response < ActiveRecord::Base
+  validate :respondent_has_not_already_answered_question
+
 
   belongs_to(
     :answer_choice,
@@ -24,4 +26,41 @@ class Response < ActiveRecord::Base
     foreign_key: :user_id,
     primary_key: :id
   )
+
+  has_one(
+    :question,
+    through: :answer_choice,
+    source: :question
+  )
+
+  belongs_to(
+    :poll,
+    through: :question,
+    source: :poll
+  )
+
+  belongs_to(
+    :poll_author,
+    through: :poll,
+    source: :author
+  )
+
+
+  # private
+
+  def
+
+  end
+
+  def respondent_has_not_already_answered_question
+    if sibling_responses.where('user_id != ?', self.user_id).exists?
+      errors[:question] << "You have already answered that question"
+    end
+  end
+
+  def sibling_responses
+    self.question
+      .responses
+      .where('responses.id != ? OR ? ', self.id, self.id.nil?)
+  end
 end

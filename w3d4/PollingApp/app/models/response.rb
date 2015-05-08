@@ -11,6 +11,7 @@
 
 class Response < ActiveRecord::Base
   validate :respondent_has_not_already_answered_question
+  validate :respondent_is_not_poll_author
 
 
   belongs_to(
@@ -48,6 +49,27 @@ class Response < ActiveRecord::Base
 
   # private
 
+  def respondent_is_not_poll_author
+     # The 3-query slow way:
+     # poll_author_id = self.answer_choice.question.poll.author_id
+
+     # 1-query; joins two extra tables.
+     poll_author_id = Poll
+       .joins(questions: :answer_choices)
+       .where("answer_choices.id = ?", self.answer_choice_id)
+       .pluck("polls.author_id")
+       .first
+
+     if poll_author_id == self.user_id
+       errors[:user_id] << "cannot be poll author"
+     end
+   end
+
+  # def repondent_did_not_create_question
+  #   if !self.user_id.nil? && user_id == poll_author.id
+  #     errors[:base] << "You can't respond to your own poll"
+  #   end
+  # end
 
   def respondent_has_not_already_answered_question
     if sibling_responses.where('user_id != ?', self.user_id).exists?

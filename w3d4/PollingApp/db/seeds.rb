@@ -40,5 +40,8 @@ User.all.each do |user|
 end
 
 
+Response.new(user_id: 2, answer_choice_id: 1).valid?
+
+
 # Response.new(user_id: 1, answer_choice_id: 1 )
 # b = Response.new(user_id: 1, answer_choice_id: 60 )  # should be invalid

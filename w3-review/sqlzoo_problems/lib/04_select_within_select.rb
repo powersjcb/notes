@@ -35,6 +35,19 @@ end
 def larger_than_russia
   # List each country name where the population is larger than 'Russia'.
   execute(<<-SQL)
+    SELECT
+      name
+    FROM
+      countries
+    WHERE
+      population > (
+        SELECT
+          population
+        FROM
+          countries
+        WHERE
+          name = 'Russia'
+      )
   SQL
 end
 
@@ -42,6 +55,19 @@ def richer_than_england
   # Show the countries in Europe with a per capita GDP greater than
   # 'United Kingdom'.
   execute(<<-SQL)
+    SELECT
+      name
+    FROM
+      countries
+    WHERE
+      continent = 'Europe' AND gdp / population > (
+        SELECT
+          (gdp / population)
+        FROM
+          countries
+        WHERE
+          name = 'United Kingdom'
+      )
   SQL
 end
 
@@ -49,6 +75,19 @@ def neighbors_of_b_countries
   # List the name and continent of countries in the continents containing
   # 'Belize', 'Belgium'.
   execute(<<-SQL)
+    SELECT
+      name, continent
+    FROM
+      countries
+    WHERE
+      continent IN (
+        SELECT
+          continent
+        FROM
+          countries
+        WHERE
+          name IN ('Belize', 'Belgium')
+      )
   SQL
 end
 
@@ -56,6 +95,26 @@ def population_constraint
   # Which country has a population that is more than Canada but less than
   # Poland? Show the name and the population.
   execute(<<-SQL)
+    SELECT
+      name, population
+    FROM
+      countries countries
+    WHERE
+      population BETWEEN (
+        SELECT
+          population + 1
+        FROM
+          countries
+        WHERE
+          countries.name = 'Canada'
+      ) AND (
+        SELECT
+          population - 1
+        FROM
+          countries
+        WHERE
+          countries.name = 'Poland'
+      )
   SQL
 end
 
@@ -63,5 +122,19 @@ def sparse_continents
   # Find each country that belongs to a continent where all populations are
   # less than 25,000,000. Show name, continent and population.
   execute(<<-SQL)
+    SELECT
+      name, continent, population
+    FROM
+      countries
+    WHERE
+      continent NOT IN (
+        SELECT
+          continent
+        FROM
+          countries
+        WHERE
+          population > #{25_000_000}
+      )
+
   SQL
 end

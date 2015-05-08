@@ -41,12 +41,16 @@ def largest_in_continent
     SELECT
       continent, name, area
     FROM
-      countries
+      countries c1
     WHERE
-      
-    GROUP BY
-      continent
-
+      area = (
+        SELECT
+          MAX(area)
+        FROM
+          countries c2
+        WHERE
+          c1.continent = c2.continent
+      );
 
   SQL
 end

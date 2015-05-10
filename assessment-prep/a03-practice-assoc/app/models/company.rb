@@ -13,28 +13,5 @@
 #
 
 class Company < ActiveRecord::Base
-  belongs_to(
-    :exchange,
-    class_name: "Exchange",
-    foreign_key: :exchange_id,
-    primary_key: :id
-  )
-
-    belongs_to(
-    :watch_list_item,
-    class_name: "WatchListItem",
-    foreign_key: :company_id,
-    primary_key: :id
-    )
-
-
-  has_many(
-    :prices,
-    class_name: "Price",
-    foreign_key: :company_id,
-    primary_key: :id
-  )
-
-
 
 end

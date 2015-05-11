@@ -10,5 +10,6 @@
 #
 
 class WatchList < ActiveRecord::Base
-
+  has_many :watch_list_items
+  belongs_to :user
 end

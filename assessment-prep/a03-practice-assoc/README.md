@@ -38,7 +38,7 @@ your job is to be able to understand the structure and interrelations
 of the data from these sources.
 
 We provide a brief overview. Users of the site create WatchLists to
-track the market. A WatchList consists of WatchListItems, each of whic
+track the market. A WatchList consists of WatchListItems, each of which
 tracks a Company for a given period of time.
 
 A Company is controlled by a Board. A Board is comprised of

@@ -12,5 +12,6 @@
 #
 
 class WatchListItem < ActiveRecord::Base
-
+  belongs_to :watch_list
+  belongs_to :company
 end

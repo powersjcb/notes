@@ -175,3 +175,13 @@ def chris_is_missed
     movie.title
 SQL
 end
+
+
+select
+  actor.name, movie.title
+from
+  casting c1
+join
+  casting c2 on c1.movieid = c2.movieid and c2.actorid = 4331
+join movie on movie.id =c1.movieid
+join actor on actor.id =c1.actorid where c1.ord = 1

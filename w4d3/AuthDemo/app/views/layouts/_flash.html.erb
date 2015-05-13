@@ -1,0 +1,18 @@
+<% unless flash[:success].nil? %>
+  <ul class="success">
+    <% flash[:success].each do |item| %>
+      <li>
+        <%= item %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+<% unless flash[:error].nil? %>
+  <ul class="error">
+    <% flash[:error].each do |item| %>
+      <li>
+        <%= item %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -1,0 +1,5 @@
+<% if logged_in? %>
+  <%= button_to "Log Out", sessions_url, method: "delete" %>
+<% else %>
+  <%= button_to "Log In", new_sessions_url, method: 'get' %>
+<% end %>

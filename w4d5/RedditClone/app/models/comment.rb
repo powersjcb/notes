@@ -13,15 +13,16 @@
 
 class Comment < ActiveRecord::Base
 
-  def self.infinite
-    p 'inifinite'
-  end
-
-  infinite
-
   include Commentable
+
+  validates(
+    :user_id,
+    uniqueness: {
+      scope: [:commentable_id, :commentable_type]
+    })
 
   belongs_to :user
   belongs_to :commentable, polymorphic: true
+
 
 end

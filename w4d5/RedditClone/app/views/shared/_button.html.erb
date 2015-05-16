@@ -3,5 +3,6 @@
   <%= button_to "Log Out", sessions_url, method: "delete" %>
 <% else %>
   <%= button_to "Login", new_sessions_url, method: "get" %>
+  <%= button_to "Sign up", new_user_url, method: "get" %>
 <% end %>
 </p>

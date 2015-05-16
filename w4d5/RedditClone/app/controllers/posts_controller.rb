@@ -46,8 +46,8 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
-    # @comments = @post.includes(comments: :comments).comments
+    @post = Post.includes(comments: :comments).find(params[:id])
+    @comments = @post.comments
   end
 
 

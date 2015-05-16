@@ -1,4 +1,6 @@
 <h2><%= link_to @post.title, @post.url %></h2>
 <h4><%= link_to @post.sub.title, @post.sub %></h4>
 
-<%= @post.content %>
+<ul>
+  <%= render @comments %>
+</ul>

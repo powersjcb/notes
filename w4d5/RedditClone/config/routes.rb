@@ -1,17 +1,15 @@
 Rails.application.routes.draw do
+  root 'subs#index'
+
   resources :users, only: [:new, :create]
 
   resource :sessions, only: [:new, :create, :destroy]
 
-  resources :posts, except: [:index, :new, :create] do
-    resources :comments, only: [:new, :create]
-  end
+  resources :posts, except: [:index, :create]
 
   resources :subs, except: :destroy do
-    resource :post, only: [:new, :create]
+    resources :posts, only: [:new]
   end
 
-  resources :comments, only: [:show, :destroy] do
-    resources :comments, only: [:new, :create]
-  end
+  resources :comments, only: [:show, :destroy, :create]
 end

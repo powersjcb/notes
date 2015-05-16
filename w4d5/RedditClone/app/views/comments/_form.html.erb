@@ -1,0 +1,25 @@
+<form action="<%= comments_url %>" method="post">
+
+  <input
+    type="hidden"
+    name="authenticity_token"
+    value="<%= form_authenticity_token %>">
+
+  <input
+    type="hidden"
+    name="comment[commentable_id]"
+    value="<%= obj.id %>">
+
+  <input
+    type="hidden"
+    name="comment[commentable_type]"
+    value="<%= obj.class %>">
+
+  <input
+    type="textarea"
+    name="comment[content]"
+    placeholder="Write comment here">
+
+
+  <input type="submit" value="Submit">
+</form>

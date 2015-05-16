@@ -1,0 +1,19 @@
+<% action_url   = ( sub.persisted? ? sub_url(sub) : subs_url ) %>
+<% method       = ( sub.persisted? ? "patch" : "post" ) %>
+<% button_label = ( sub.persisted? ? "Update" : "Create" ) %>
+
+<form action="<%= action_url %>" method="post">
+  <input type="hidden" name="_method" value="<%= method %>">
+  <input type="hidden" name="authenticity_token"
+    value="<%= form_authenticity_token %>">
+
+  <label for="sub-title">Title</label>
+  <input id="sub-title" type="text" name="sub[title]" value="<%= sub.title %>">
+
+
+  <label for="Description">Description</label>
+  <input type="text" name="sub[description]" value="<%= sub.description %>">
+
+  <input type="submit" value="<%= button_label %>">
+
+</form>

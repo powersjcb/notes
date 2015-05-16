@@ -1,0 +1,5 @@
+
+<li>
+   <%= link_to post.title, post.url ? post.url : post_url(post) %><br>
+   <small><%= link_to "comments", post_url(post) %></small>
+</li>

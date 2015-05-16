@@ -1,0 +1,8 @@
+<h2><%= @sub.title %></h2>
+<small><%= @sub.description %></small>
+
+<%= button_to "New post", new_sub_post_url(@sub) %>
+
+<ul>
+  <%= render @posts %>
+</ul>

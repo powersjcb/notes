@@ -61,6 +61,7 @@ var kitten = new Kitten("Earl", 2);
 
 
 // And again with prototypes to reduce duplicatoin of meow method
+//   behaves like a parent class method, can be overidden
 function Kitten(name, age) {
   this.name = name;
   this.age  = age;

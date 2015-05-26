@@ -5,16 +5,16 @@ if (typeof Asteroids === "undefined") {
 
 var Util = Asteroids.Util = {};
 
-Util.inherits = function (childClass, parentClass) {
-  function Surrogate () {}
-  Surrogate.prototype = parentClass.prototype;
-  childClass = new Surrogate();
+var inherits = Util.inherits = function (ChildClass, BaseClass) {
+  function Surrogate () { this.constructor = ChildClass; }
+  Surrogate.prototype = BaseClass.prototype;
+  ChildClass.prototype = new Surrogate();
 };
 
 Util.randomVec = function (length) {
   var angle = Math.random() * Math.PI * 2;
-  var x = Math.floor(Math.sin(angle) * length);
-  var y = Math.floor(Math.cos(angle) * length);
+  var x = (Math.sin(angle) * length);
+  var y = (Math.cos(angle) * length);
   return [x,y];
 };
 

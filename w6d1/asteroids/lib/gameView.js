@@ -9,7 +9,7 @@ var GameView = Asteroids.GameView = function (game, ctx) {
 };
 
 GameView.prototype.start = function () {
-  var that = this
+  var that = this;
   setInterval(
     function () {
     that.game.moveObjects();

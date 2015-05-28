@@ -1,0 +1,65 @@
+* {
+  font-family: roboto, sans-serif;
+}
+
+
+.clicked {
+  background: red !important;
+}
+
+.disc {
+  display: block;
+  float: left;
+  width: 40px;
+  position: relative;
+}
+
+.disc1 {
+  background: yellow;
+  height: 50px;
+  top: 75px;
+}
+.disc2 {
+  background: green;
+  height: 150px;
+  top: 25px;
+}
+.disc3 {
+  background: purple;
+  height: 200px;
+}
+
+.game {
+  top: 100px;
+  left: 39.5%;
+  display: block;
+  border: 15px solid black;
+  height: 600px;
+  width: 350px;
+  position: absolute;
+  transform: rotate(-90deg);
+}
+
+h1 {
+  text-align: center;
+  font-size: 50px;
+}
+
+.pillar {
+  display: block;
+  float: left;
+  margin: 0;
+  height: 200px;
+  width: 350px;
+  position: relative;
+  background: blue;
+}
+
+.pillar:hover {
+  background: grey;
+}
+
+.winning {
+text-align: center;
+font-size: 30px;
+}

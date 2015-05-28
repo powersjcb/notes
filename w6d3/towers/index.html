@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Towers of Hanoi</title>
+    <link rel="stylesheet" type="text/css" href="./hanoi.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:900,400'
+      rel='stylesheet' type='text/css'>
+
+  </head>
+  <body>
+    <h1>Towers of Hanoi</h1>
+
+    <div class="game">
+      <div class="board">
+      </div>
+    </div>
+
+    <div class="winning" hidden>You win!</div>
+
+
+    <script src="./jquery-2.1.4.min.js"></script>
+    <script src="./hanoi-core.js"></script>
+    <script src="./hanoi-view.js"></script>
+
+    <script>
+      var game = new Hanoi.Game();
+      var view = new Hanoi.View(game, $('.board'));
+      view.clickTower();
+    </script>
+  </body>
+</html>

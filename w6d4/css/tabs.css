@@ -1,0 +1,47 @@
+.nav-tab-header {
+  display: block;
+  float: left;
+  margin: 5px;
+}
+
+.tabs-nav{
+  display: block;
+  height: 10px;
+}
+
+.nav-tab-header.active {
+  font-weight: bold;
+}
+
+.tabs-container {
+  clear: both;
+  display: block;
+}
+
+.tab {
+  display: none;
+  transition: opacity 0.5s linear;
+}
+
+.tab-header {
+  float: left;
+}
+
+.tab-wrapper {
+  display: block;
+  float: left;
+}
+
+.tab.active {
+  display: block;
+  opacity: 1;
+}
+.tab.transitioning {
+  opacity: 0;
+  display: block;
+}
+.tab.transitioning-in {
+  opacity: 0;
+  display: block;
+  position: absolute;
+}

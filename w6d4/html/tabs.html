@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Cool Website</title
+
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.2/build/cssreset/cssreset-min.css">
+    <link href="../css/tabs.css" rel="stylesheet" type="text/css">
+    <link href="../css/carousel.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+
+
+    <div class="my-carousel">
+      <div class="items">
+        <img src="http://placekitten.com/g/200/300">
+        <img src="http://placekitten.com/g/150/300">
+        <img src="http://placekitten.com/g/250/300">
+      </div>
+
+      <a href="javascript:void(0)" class="slide-right">Prev</a>
+      <a href="javascript:void(0)" class="slide-left">Next</a>
+    </div>
+
+
+
+
+
+
+  <div class="tabs-wrapper">
+    <div class="tabs-nav" id="body-tabs">
+    </div>
+    <div class="tabs-container" data-tabs-nav="#body-tabs">
+      <div class="tab active">
+        <header class="tab-header">Title 1</header>
+        <article class="tab-pane">
+          <p>Tab 1</p>
+        </article>
+      </div>
+      <div class="tab">
+        <header class="tab-header">Title 2</header>
+        <article class="tab-pane">
+          <p>Tab 2</p>
+        </article>
+      </div>
+      <div class="tab">
+        <header class="tab-header">Title 3</header>
+        <article class="tab-pane">
+          <p>Tab 3</p>
+        </article>
+      </div>
+    </div>
+  </div>
+
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/tabs.js"></script>
+    <script src="../js/carousel.js"></script>
+    <script>
+      $(function() {
+        $(document).tabs();
+        $('.my-carousel').carousel();
+      })
+    </script>
+  </body>
+
+</html>

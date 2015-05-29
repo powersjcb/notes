@@ -1,0 +1,9 @@
+.gutter-images img {
+  width: 20%;
+  display: block;
+  float: left;
+}
+
+.thumbnails {
+  width: 400px;
+}
